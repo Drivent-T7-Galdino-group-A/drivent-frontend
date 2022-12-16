@@ -2,24 +2,29 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { Typography } from '@material-ui/core';
 import { Wrapper } from './Wrapper';
-import { TypeSelect } from './TypeSelect';
+import { TypeOnline } from './TypeOnline';
+import { TypePresencial } from './TypePresencial';
 
 export default function TicketAndPayment() {
   const [selectedType, setSelectedType] = useState('');
+
+  function typeSelect(type) {
+    setSelectedType(type);
+  }
 
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
       <Wrapper>
         <StyledTypography variant="h5">Primeiro, escolha sua modalidade de ingresso</StyledTypography>
-        <TypeSelect>
+        <TypePresencial onClick={() => typeSelect('Presencial')} type={selectedType}>
           Presencial
           <h6>R$ 250</h6>
-        </TypeSelect>
-        <TypeSelect>
+        </TypePresencial>
+        <TypeOnline onClick={() => typeSelect('Online')} type={selectedType}>
           Online
           <h6>R$ 100</h6>
-        </TypeSelect>
+        </TypeOnline>
       </Wrapper>
     </>
   );
