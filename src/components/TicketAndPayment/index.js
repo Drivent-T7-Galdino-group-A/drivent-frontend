@@ -42,6 +42,7 @@ export default function TicketAndPayment() {
                 <TypeOnline
                   onClick={() => {
                     setIsRemote('true');
+                    setIncludesHotel('');
                     setTotal(100);
                   }}
                   type={isRemote}
@@ -88,7 +89,14 @@ export default function TicketAndPayment() {
                     <StyledTypography variant="h5">
                       Fechado! O total ficou em <strong>R$ {total}</strong>. Agora é só confirmar:
                     </StyledTypography>
-                    <SubmitButton onClick={() => setFinishPayment(true)}>RESERVAR INGRESSO</SubmitButton>
+                    <SubmitButton
+                      onClick={() => {
+                        setIncludesHotel('false');
+                        setFinishPayment(true);
+                      }}
+                    >
+                      RESERVAR INGRESSO
+                    </SubmitButton>
                   </>
                 )}
               </>
