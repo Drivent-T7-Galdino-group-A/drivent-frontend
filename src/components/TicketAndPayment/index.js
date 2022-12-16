@@ -23,7 +23,7 @@ export default function TicketAndPayment() {
         {enrollment ? (
           <>
             {finishPayment ? (
-              <Payment isRemote={isRemote} />
+              <Payment isRemote={isRemote} includesHotel={includesHotel} total={total}/>
             ) : (
               <>
                 <StyledTypography variant="h5">Primeiro, escolha sua modalidade de ingresso</StyledTypography>
