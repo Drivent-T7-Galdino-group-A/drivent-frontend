@@ -1,15 +1,13 @@
 import styled from 'styled-components';
 import { StyledTypography } from '../index';
 
-export default function Payment({ selectedType }) {
-  //aguardando props se será com ou sem hotel
-  //aguardando props do valor da compra
+export default function Payment({ isRemote, includesHotel, total }) {
   return (
     <>
       <StyledTypography variant="h5">Ingresso escolhido</StyledTypography>
       <TicketRecord>
-        {selectedType} {selectedType === 'Online' ? '' : ' + Com Hotel'}
-        <h6>R${selectedType === 'Online' ? '100,00' : ''}</h6>
+        {isRemote === 'true' ? 'Online' : 'Presencial'} {includesHotel === 'false' ? '' : '+ Com Hotel'}
+        <h6>R${total}</h6>
       </TicketRecord>
     </>
   );
