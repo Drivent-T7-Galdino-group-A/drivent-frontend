@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import useEnrollment from '../../hooks/api/useEnrollment';
+import Payment from './Payment';
+import ReserveTicket from './ReserveTicket';
 import styled from 'styled-components';
 import { Typography } from '@material-ui/core';
 import { Wrapper } from './Wrapper';
-import { TypeOnline } from './TypeOnline';
-import { TypePresencial } from './TypePresencial';
-import useEnrollment from '../../hooks/api/useEnrollment';
-import Payment from './Payment';
 import { TypeHotel } from './TypeHotel';
 import { TypeNoHotel } from './TypeNoHotel';
+import { TypeOnline } from './TypeOnline';
+import { TypePresencial } from './TypePresencial';
 
 export default function TicketAndPayment() {
   const [isRemote, setIsRemote] = useState('');
@@ -23,15 +24,15 @@ export default function TicketAndPayment() {
         {enrollment ? (
           <>
             {finishPayment ? (
-              <Payment isRemote={isRemote} includesHotel={includesHotel} total={total}/>
+              <Payment isRemote={isRemote} includesHotel={includesHotel} total={total} />
             ) : (
               <>
                 <StyledTypography variant="h5">Primeiro, escolha sua modalidade de ingresso</StyledTypography>
                 <TypePresencial
                   onClick={() => {
                     setIsRemote('false');
-                    if (total < 250) {
-                      setTotal(250);
+                    if (total < 25000) {
+                      setTotal(25000);
                     }
                   }}
                   type={isRemote}
@@ -43,7 +44,7 @@ export default function TicketAndPayment() {
                   onClick={() => {
                     setIsRemote('true');
                     setIncludesHotel('');
-                    setTotal(100);
+                    setTotal(10000);
                   }}
                   type={isRemote}
                 >
@@ -51,13 +52,21 @@ export default function TicketAndPayment() {
                   <h6>R$ 100</h6>
                 </TypeOnline>
 
+                {isRemote === 'true' && (
+                  <ReserveTicket
+                    total={total}
+                    setFinishPayment={setFinishPayment}
+                    enrollmentId={enrollment.id}
+                  ></ReserveTicket>
+                )}
+
                 {isRemote === 'false' && (
                   <>
                     <StyledTypography variant="h5">Ótimo! Agora escolha sua modalidade de hospedagem</StyledTypography>
                     <TypeNoHotel
                       onClick={() => {
                         setIncludesHotel('false');
-                        setTotal(250);
+                        setTotal(25000);
                       }}
                       type={includesHotel}
                     >
@@ -66,37 +75,19 @@ export default function TicketAndPayment() {
                     <TypeHotel
                       onClick={() => {
                         setIncludesHotel('true');
-                        setTotal(600);
+                        setTotal(60000);
                       }}
                       type={includesHotel}
                     >
                       Com Hotel<h6>+ R$ 350</h6>
                     </TypeHotel>
-                    {includesHotel ? (
-                      <>
-                        <StyledTypography variant="h5">
-                          Fechado! O total ficou em <strong>R$ {total}</strong>. Agora é só confirmar:
-                        </StyledTypography>
-                        <SubmitButton onClick={() => setFinishPayment(true)}>RESERVAR INGRESSO</SubmitButton>
-                      </>
-                    ) : (
-                      <></>
+                    {includesHotel && (
+                      <ReserveTicket
+                        total={total}
+                        setFinishPayment={setFinishPayment}
+                        enrollmentId={enrollment.id}
+                      ></ReserveTicket>
                     )}
-                  </>
-                )}
-                {isRemote === 'true' && (
-                  <>
-                    <StyledTypography variant="h5">
-                      Fechado! O total ficou em <strong>R$ {total}</strong>. Agora é só confirmar:
-                    </StyledTypography>
-                    <SubmitButton
-                      onClick={() => {
-                        setIncludesHotel('false');
-                        setFinishPayment(true);
-                      }}
-                    >
-                      RESERVAR INGRESSO
-                    </SubmitButton>
                   </>
                 )}
               </>
@@ -112,18 +103,4 @@ export default function TicketAndPayment() {
 
 export const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
-`;
-
-const SubmitButton = styled.button`
-  margin-top: 10px !important;
-  height: 37px !important;
-  width: 162px !important;
-  box-shadow: 0px 2px 10px 0px #00000040;
-  background: #e0e0e0;
-  border: none;
-  border-radius: 4px;
-  color: #000000;
-  font-size: 14px;
-  font-weight: 400;
-  cursor: pointer;
 `;

@@ -7,7 +7,7 @@ export default function Payment({ isRemote, includesHotel, total }) {
       <StyledTypography variant="h5">Ingresso escolhido</StyledTypography>
       <TicketRecord>
         {isRemote === 'true' ? 'Online' : 'Presencial'} {includesHotel === 'false' ? '' : '+ Com Hotel'}
-        <h6>R${total}</h6>
+        <h6>R${total/100}</h6>
       </TicketRecord>
     </>
   );
