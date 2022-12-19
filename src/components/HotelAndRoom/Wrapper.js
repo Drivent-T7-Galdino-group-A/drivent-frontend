@@ -4,8 +4,8 @@ export const Wrapper = styled.div`
   display: flex;
   width: 100%;
   height: 90%;
-  justify-content: ${props => props.finishPayment === false ? 'center' : ''};
-  align-items: ${props => props.finishPayment === false ? 'center' : ''};
+  justify-content: ${props => props.paymentConfirmed !== 'PAID' ? 'center' : ''};
+  align-items: ${props => props.paymentConfirmed !== 'PAID' ? 'center' : ''};
   flex-wrap: wrap;
 
   h5 {
@@ -17,6 +17,7 @@ export const Wrapper = styled.div`
   }
 
   span {
+    width: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
