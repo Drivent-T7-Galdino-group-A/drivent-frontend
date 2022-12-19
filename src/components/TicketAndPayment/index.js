@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import useEnrollment from '../../hooks/api/useEnrollment';
+import useTicket from '../../hooks/api/useTicket';
 import Payment from './Payment';
 import ReserveTicket from './ReserveTicket';
 import styled from 'styled-components';
@@ -12,6 +13,7 @@ export default function TicketAndPayment() {
   const [total, setTotal] = useState(0);
   const [finishPayment, setFinishPayment] = useState(false);
   const { enrollment } = useEnrollment();
+  const { ticket } = useTicket();
 
   return (
     <>
@@ -19,8 +21,8 @@ export default function TicketAndPayment() {
       <Wrapper>
         {enrollment ? (
           <>
-            {finishPayment ? (
-              <Payment isRemote={isRemote} includesHotel={includesHotel} total={total} />
+            {finishPayment || ticket ? (
+              <Payment />
             ) : (
               <>
                 <StyledTypography variant="h5">Primeiro, escolha sua modalidade de ingresso</StyledTypography>
