@@ -15,6 +15,5 @@ export default function useCreateTicket() {
     createTicket,
     createTicketLoading,
     createTicketError,
-    createTicket,
   };
 }

@@ -5,10 +5,6 @@ import ReserveTicket from './ReserveTicket';
 import styled from 'styled-components';
 import { Typography } from '@material-ui/core';
 import { Wrapper } from './Wrapper';
-import { TypeHotel } from './TypeHotel';
-import { TypeNoHotel } from './TypeNoHotel';
-import { TypeOnline } from './TypeOnline';
-import { TypePresencial } from './TypePresencial';
 
 export default function TicketAndPayment() {
   const [isRemote, setIsRemote] = useState('');
@@ -103,4 +99,20 @@ export default function TicketAndPayment() {
 
 export const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
+`;
+
+const TypePresencial = styled.div`
+  ${(props) => (props.type === 'false' ? 'background-color: #FFEED2;' : '')}
+`;
+
+const TypeOnline = styled.div`
+  ${(props) => (props.type === 'true' ? 'background-color: #FFEED2;' : '')}
+`;
+
+const TypeHotel = styled.div`
+  ${(props) => (props.type === 'true' ? 'background-color: #FFEED2;' : '')}
+`;
+
+const TypeNoHotel = styled.div`
+  ${(props) => (props.type === 'false' ? 'background-color: #FFEED2;' : '')}
 `;

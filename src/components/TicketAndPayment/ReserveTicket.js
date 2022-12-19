@@ -18,7 +18,7 @@ export default function ReserveTicket({ total, setFinishPayment, enrollmentId })
           ticketTypes.map(async(ticketType) => {
             if (ticketType.price === total) {
               try {
-                await createTicket({ ticketTypeId: ticketType.id, enrollmentId, status: 'RESERVED' });
+                await createTicket({ ticketTypeId: ticketType.id });
                 toast('Informações salvas com sucesso!');
                 setFinishPayment(true);
               } catch (err) {
