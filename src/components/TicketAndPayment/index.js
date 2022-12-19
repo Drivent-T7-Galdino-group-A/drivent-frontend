@@ -18,7 +18,7 @@ export default function TicketAndPayment() {
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
-      <Wrapper>
+      <Wrapper enrollment={enrollment}>
         {enrollment ? (
           <>
             {finishPayment || ticket ? (
@@ -92,7 +92,7 @@ export default function TicketAndPayment() {
             )}
           </>
         ) : (
-          <>Por favor, finalize sua inscrição para ter acesso a esta página.</>
+          <span>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</span>
         )}
       </Wrapper>
     </>
