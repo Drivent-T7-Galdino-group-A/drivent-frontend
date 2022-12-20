@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import useTicket from '../../hooks/api/useTicket';
 import { StyledTypography } from '../TicketAndPayment';
 import { Wrapper } from './Wrapper';
+import MenuHotel from './MenuHotel';
 
 export default function HotelAndRoom() {
   const { ticket } = useTicket();
