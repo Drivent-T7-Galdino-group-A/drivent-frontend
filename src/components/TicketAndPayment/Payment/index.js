@@ -7,17 +7,11 @@ export default function Payment() {
 
   return (
     <>
-      {ticket ? (
-        <>
-          <StyledTypography variant="h5">Ingresso escolhido</StyledTypography>
-          <TicketRecord>
-            {ticket.TicketType.name} {ticket.TicketType.includesHotel === true ? '+ Com Hotel' : ''}
-            <h6>R$ {ticket.TicketType.price / 100}</h6>
-          </TicketRecord>
-        </>
-      ) : (
-        <></>
-      )}
+      <StyledTypography variant="h5">Ingresso escolhido</StyledTypography>
+      <TicketRecord>
+        {ticket?.TicketType.name} {ticket?.TicketType.includesHotel === true ? '+ Com Hotel' : ''}
+        <h6>R$ {ticket?.TicketType.price / 100}</h6>
+      </TicketRecord>
     </>
   );
 }
