@@ -2,11 +2,15 @@ import { useState } from 'react';
 
 export default function Hotel({ name, image, rooms }) {
   const acommodations = typesOfAcommodation(rooms);
+  const numberOfAvailablePositions = availablePositions(rooms);
 
   return (
     <>
       <h3>Tipos de acomodação:</h3>
       <p>{acommodations}</p>
+
+      <h3>Vagas disponíveis:</h3>
+      <p>{numberOfAvailablePositions}</p>
     </>
   );
 }
@@ -49,3 +53,6 @@ function typesOfAcommodation(rooms) {
   }
 }
 
+function availablePositions(rooms) {
+  return rooms.reduce((acc, curr) => acc + (curr.capacity - curr._count), 0);
+}
