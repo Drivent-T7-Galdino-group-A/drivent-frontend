@@ -53,7 +53,6 @@ export const Wrapper = styled.div`
 
   @media (max-width: 600px) {
     > div {
-      width: 40%;
       padding-left: 0px !important;
     }
   }

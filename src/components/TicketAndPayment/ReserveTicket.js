@@ -50,4 +50,8 @@ const SubmitButton = styled.button`
   font-size: 14px;
   font-weight: 400;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    margin-bottom: 10px !important;
+  }
 `;
