@@ -1,26 +1,30 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import useTicket from '../../hooks/api/useTicket';
 import { StyledTypography } from '../TicketAndPayment';
 import { Wrapper } from './Wrapper';
 
 export default function HotelAndRoom() {
-  const [finishPayment, setFinishPayment] = useState(false);
+  const { ticket } = useTicket();
 
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      <Wrapper finishPayment={finishPayment}>
-        {finishPayment ? (
-          <>'Hotel: Em breve!'</>
+      <Wrapper paymentConfirmed={ticket?.status}>
+        {ticket?.status === 'PAID' ? (
+          ticket?.ticketType?.includesHotel === true ? (
+            <>Hotel: Em breve!</>
+          ) : (
+            <WarningMessage>Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades</WarningMessage>
+          )
         ) : (
-          <PaymentConfirmationMessage>Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem</PaymentConfirmationMessage>
+          <WarningMessage>Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem</WarningMessage>
         )}
       </Wrapper>
     </>
   );
 }
 
-export const PaymentConfirmationMessage = styled.span`
+export const WarningMessage = styled.span`
   color: #8E8E8E;
   font-family: 'Roboto';
   font-size: 20px;

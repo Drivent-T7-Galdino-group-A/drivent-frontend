@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
+  display: flex;
   width: 100%;
   height: 90%;
+  justify-content: ${(props) => (props.paymentStatus === 'PAID' ? '' : 'center')};
+  align-items: ${(props) => (props.paymentStatus === 'PAID' ? '' : 'center')};
   flex-wrap: wrap;
   font-family: 'Roboto';
 
@@ -11,9 +14,12 @@ export const Wrapper = styled.div`
     font-weight: 400;
     font-size: 20px;
     color: #8e8e8e;
+    margin-top: 17px;
   }
 
   span {
+    justify-content: center;
+    align-items: center;
     color: #8e8e8e;
     font-size: 20px;
     text-align: center;
@@ -22,10 +28,6 @@ export const Wrapper = styled.div`
   }
 
   > div {
-    display: flex;
-  }
-
-  > div > div {
     display: flex;
     flex-direction: column;
     width: 145px;
