@@ -14,7 +14,9 @@ export default function HotelAndRoom() {
           ticket?.ticketType?.includesHotel === true ? (
             <>Hotel: Em breve!</>
           ) : (
-            <WarningMessage>Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades</WarningMessage>
+            <WarningMessage paymentConfirmed={ticket?.status}>
+              Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades
+            </WarningMessage>
           )
         ) : (
           <WarningMessage>Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem</WarningMessage>
@@ -25,7 +27,10 @@ export default function HotelAndRoom() {
 }
 
 export const WarningMessage = styled.span`
-  color: #8E8E8E;
+  display: ${(props) => (props.paymentConfirmed === 'PAID' ? 'flex' : '')};
+  align-self: ${(props) => (props.paymentConfirmed === 'PAID' ? 'center' : '')};
+  margin-left: ${(props) => (props.paymentConfirmed === 'PAID' ? '22%' : '')};
+  color: #8e8e8e;
   font-family: 'Roboto';
   font-size: 20px;
   text-align: center;
