@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useEnrollment from '../../hooks/api/useEnrollment';
 import useTicket from '../../hooks/api/useTicket';
 import Payment from './Payment';
@@ -6,14 +6,33 @@ import ReserveTicket from './ReserveTicket';
 import styled from 'styled-components';
 import { Typography } from '@material-ui/core';
 import { Wrapper } from './Wrapper';
+import useTicketTypes from '../../hooks/api/useTicketTypes';
 
 export default function TicketAndPayment() {
+  const { enrollment } = useEnrollment();
+  const { ticketTypes } = useTicketTypes();
+  const { ticket } = useTicket();
   const [isRemote, setIsRemote] = useState('');
   const [includesHotel, setIncludesHotel] = useState('');
   const [total, setTotal] = useState(0);
   const [finishPayment, setFinishPayment] = useState(false);
-  const { enrollment } = useEnrollment();
-  const { ticket } = useTicket();
+  const [onlineTicket, setOnlineTicket] = useState({});
+  const [withoutHotelTicket, setWithoutHotelTicket] = useState({});
+  const [withHotelTicket, setWithHotelTicket] = useState({});
+
+  useEffect(() => {
+    ticketTypes?.map((ticket) => {
+      if (ticket.isRemote === true) {
+        setOnlineTicket(ticket);
+      }
+      if (ticket.isRemote === false && ticket.includesHotel === false) {
+        setWithoutHotelTicket(ticket);
+      }
+      if (ticket.isRemote === false && ticket.includesHotel === true) {
+        setWithHotelTicket(ticket);
+      }
+    });
+  }, [ticketTypes]);
 
   return (
     <>
@@ -30,25 +49,25 @@ export default function TicketAndPayment() {
                   <TypePresencial
                     onClick={() => {
                       setIsRemote('false');
-                      if (total < 25000) {
-                        setTotal(25000);
+                      if (total < withoutHotelTicket?.price) {
+                        setTotal(withoutHotelTicket?.price);
                       }
                     }}
                     type={isRemote}
                   >
                     Presencial
-                    <h6>R$ 250</h6>
+                    <h6>R$ {withoutHotelTicket?.price / 100}</h6>
                   </TypePresencial>
                   <TypeOnline
                     onClick={() => {
                       setIsRemote('true');
                       setIncludesHotel('');
-                      setTotal(10000);
+                      setTotal(onlineTicket?.price);
                     }}
                     type={isRemote}
                   >
                     Online
-                    <h6>R$ 100</h6>
+                    <h6>R$ {onlineTicket?.price / 100}</h6>
                   </TypeOnline>
                 </Types>
                 {isRemote === 'true' && (
@@ -66,7 +85,7 @@ export default function TicketAndPayment() {
                       <TypeNoHotel
                         onClick={() => {
                           setIncludesHotel('false');
-                          setTotal(25000);
+                          setTotal(withoutHotelTicket?.price);
                         }}
                         type={includesHotel}
                       >
@@ -75,11 +94,11 @@ export default function TicketAndPayment() {
                       <TypeHotel
                         onClick={() => {
                           setIncludesHotel('true');
-                          setTotal(60000);
+                          setTotal(withHotelTicket?.price);
                         }}
                         type={includesHotel}
                       >
-                        Com Hotel<h6>+ R$ 350</h6>
+                        Com Hotel<h6>+ R$ {(withHotelTicket?.price - withoutHotelTicket?.price) / 100}</h6>
                       </TypeHotel>
                     </Types>
                     {includesHotel && (

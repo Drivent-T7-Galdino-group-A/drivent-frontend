@@ -49,7 +49,7 @@ export default function Payment() {
         <h6>R$ {ticket?.TicketType.price / 100}</h6>
       </TicketRecord>
       <StyledTypography variant="h5">Pagamento</StyledTypography>
-      {ticket.status === 'PAID' ? (
+      {ticket?.status === 'PAID' ? (
         <PaymentConcluded>
           <FaCheckCircle
             size='40px'

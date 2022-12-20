@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
+  display: ${(props) => (props.enrollment ? '' : 'flex')};
+  justify-content: ${(props) => (props.enrollment ? '' : 'center')};
+  align-items: ${(props) => (props.enrollment ? '' : 'center')};
   width: 100%;
   height: 90%;
   flex-wrap: wrap;
@@ -50,7 +53,6 @@ export const Wrapper = styled.div`
 
   @media (max-width: 600px) {
     > div {
-      width: 40%;
       padding-left: 0px !important;
     }
   }
