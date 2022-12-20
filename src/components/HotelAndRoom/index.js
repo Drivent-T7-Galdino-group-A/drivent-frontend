@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import useTicket from '../../hooks/api/useTicket';
 import { StyledTypography } from '../TicketAndPayment';

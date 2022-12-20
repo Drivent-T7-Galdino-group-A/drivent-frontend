@@ -26,30 +26,31 @@ export default function TicketAndPayment() {
             ) : (
               <>
                 <StyledTypography variant="h5">Primeiro, escolha sua modalidade de ingresso</StyledTypography>
-                <TypePresencial
-                  onClick={() => {
-                    setIsRemote('false');
-                    if (total < 25000) {
-                      setTotal(25000);
-                    }
-                  }}
-                  type={isRemote}
-                >
-                  Presencial
-                  <h6>R$ 250</h6>
-                </TypePresencial>
-                <TypeOnline
-                  onClick={() => {
-                    setIsRemote('true');
-                    setIncludesHotel('');
-                    setTotal(10000);
-                  }}
-                  type={isRemote}
-                >
-                  Online
-                  <h6>R$ 100</h6>
-                </TypeOnline>
-
+                <Types>
+                  <TypePresencial
+                    onClick={() => {
+                      setIsRemote('false');
+                      if (total < 25000) {
+                        setTotal(25000);
+                      }
+                    }}
+                    type={isRemote}
+                  >
+                    Presencial
+                    <h6>R$ 250</h6>
+                  </TypePresencial>
+                  <TypeOnline
+                    onClick={() => {
+                      setIsRemote('true');
+                      setIncludesHotel('');
+                      setTotal(10000);
+                    }}
+                    type={isRemote}
+                  >
+                    Online
+                    <h6>R$ 100</h6>
+                  </TypeOnline>
+                </Types>
                 {isRemote === 'true' && (
                   <ReserveTicket
                     total={total}
@@ -61,24 +62,26 @@ export default function TicketAndPayment() {
                 {isRemote === 'false' && (
                   <>
                     <StyledTypography variant="h5">Ótimo! Agora escolha sua modalidade de hospedagem</StyledTypography>
-                    <TypeNoHotel
-                      onClick={() => {
-                        setIncludesHotel('false');
-                        setTotal(25000);
-                      }}
-                      type={includesHotel}
-                    >
-                      Sem Hotel<h6>+ R$ 0</h6>
-                    </TypeNoHotel>
-                    <TypeHotel
-                      onClick={() => {
-                        setIncludesHotel('true');
-                        setTotal(60000);
-                      }}
-                      type={includesHotel}
-                    >
-                      Com Hotel<h6>+ R$ 350</h6>
-                    </TypeHotel>
+                    <Types>
+                      <TypeNoHotel
+                        onClick={() => {
+                          setIncludesHotel('false');
+                          setTotal(25000);
+                        }}
+                        type={includesHotel}
+                      >
+                        Sem Hotel<h6>+ R$ 0</h6>
+                      </TypeNoHotel>
+                      <TypeHotel
+                        onClick={() => {
+                          setIncludesHotel('true');
+                          setTotal(60000);
+                        }}
+                        type={includesHotel}
+                      >
+                        Com Hotel<h6>+ R$ 350</h6>
+                      </TypeHotel>
+                    </Types>
                     {includesHotel && (
                       <ReserveTicket
                         total={total}
@@ -101,6 +104,11 @@ export default function TicketAndPayment() {
 
 export const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
+`;
+
+const Types = styled.div`
+  width: 315px;
+  margin-bottom: 40px;
 `;
 
 const TypePresencial = styled.div`
