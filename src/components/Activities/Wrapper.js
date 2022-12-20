@@ -3,10 +3,11 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   width: 100%;
+  height: 90%;
+  justify-content: ${(props) => (props.paymentStatus === 'PAID' ? '' : 'center')};
+  align-items: ${(props) => (props.paymentStatus === 'PAID' ? '' : 'center')};
   flex-wrap: wrap;
   font-family: 'Roboto';
-  justify-content: ${(props) => (props.enrollment ? '' : 'center')};
-  align-items: ${(props) => (props.enrollment ? '' : 'center')};
 
   h5 {
     width: 100%;
