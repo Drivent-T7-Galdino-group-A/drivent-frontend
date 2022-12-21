@@ -4,8 +4,8 @@ export const Wrapper = styled.div`
   display: flex;
   width: 100%;
   height: 90%;
-  justify-content: ${(props) => (props.paymentStatus === 'PAID' ? '' : 'center')};
-  align-items: ${(props) => (props.paymentStatus === 'PAID' ? '' : 'center')};
+  justify-content: ${(props) => (props.paymentStatus === 'PAID' && !props.isRemote ? '' : 'center')};
+  align-items: ${(props) => (props.paymentStatus === 'PAID' && !props.isRemote ? '' : 'center')};
   flex-wrap: wrap;
   font-family: 'Roboto';
 
