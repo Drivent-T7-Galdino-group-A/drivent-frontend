@@ -10,7 +10,7 @@ export default function ActivitiesSelection() {
       <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
       <Wrapper paymentStatus={ticket?.status}>
         {ticket?.status === 'PAID' ? (
-          <>Atividades: Em breve!</>
+          <StyledTypography variant="h5">Primeiro, filtre pelo dia do evento:</StyledTypography>
         ) : (
           <span>Você precisa ter confirmado pagamento antes de fazer a escolha de atividades</span>
         )}

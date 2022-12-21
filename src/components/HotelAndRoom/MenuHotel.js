@@ -7,7 +7,7 @@ export default function MenuHotel() {
   return (
     <>
       {hotels?.map((hotel, index) => (
-        <Hotel key={index} name={hotel.name} image={hotel.image} rooms={hotel.rooms}></Hotel>
+        <Hotel key={index} name={hotel.name} image={hotel.image} rooms={hotel.Rooms}></Hotel>
       ))}
     </>
   );
