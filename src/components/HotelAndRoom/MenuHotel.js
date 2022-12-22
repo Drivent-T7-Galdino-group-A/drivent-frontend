@@ -4,16 +4,17 @@ import Hotel from './Hotel';
 
 export default function MenuHotel({ selectedHotel, selectHotelHandler }) {
   const { hotels } = useHotels();
-  
+  console.log(hotels);
+
   return (
     <HotelContainer>
       {hotels?.map((hotel, index) => (
-        <Hotel 
-          key={index} 
-          name={hotel.name} 
-          image={hotel.image} 
-          rooms={hotel.rooms} 
-          selected={hotel.id === selectedHotel} 
+        <Hotel
+          key={index}
+          name={hotel.name}
+          image={hotel.image}
+          rooms={hotel.Rooms}
+          selected={hotel.id === selectedHotel}
           selectHotelHandler={() => selectHotelHandler(hotel.id)}
         />
       ))}

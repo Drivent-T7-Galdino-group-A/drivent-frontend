@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  display: flex;
+  display: ${(props) => (props.paymentStatus === 'PAID' && !props.isRemote ? '' : 'center')};
   width: 100%;
   height: 90%;
   justify-content: ${(props) => (props.paymentStatus === 'PAID' && !props.isRemote ? '' : 'center')};

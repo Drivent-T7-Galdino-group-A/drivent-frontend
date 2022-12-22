@@ -24,21 +24,21 @@ export default function Hotel({ name, image, rooms, selected, selectHotelHandler
 }
 
 function typesOfAccommodation(rooms) {
-  const [single, setSingle] = useState(false);
-  const [double, setDouble] = useState(false);
-  const [triple, setTriple] = useState(false);
+  let single;
+  let double;
+  let triple;
 
   if (rooms?.length === 0) return '';
 
   for (let i = 0; i < rooms?.length; i++) {
     if (rooms[i].capacity === 1) {
-      setSingle(true);
+      single = true;
     }
     if (rooms[i].capacity === 2) {
-      setDouble(true);
+      double = true;
     }
     if (rooms[i].capacity === 3) {
-      setTriple(true);
+      triple = true;
     }
   }
 
@@ -62,12 +62,12 @@ function typesOfAccommodation(rooms) {
 }
 
 function availablePositions(rooms) {
-  return rooms?.reduce((acc, curr) => acc + (curr.capacity - curr._count), 0);
+  return rooms.reduce((acc, curr) => acc + (curr.capacity - curr._count.Booking), 0);
 }
 
 export const HotelBox = styled.div`
-  background-color: ${props => props.selected ? '#FFEED2' : '#EBEBEB'};
-  color: #3C3C3C;
+  background-color: ${(props) => (props.selected ? '#FFEED2' : '#EBEBEB')};
+  color: #3c3c3c;
   width: 196px;
   height: 264px;
   padding: 16px 14px 22px 14px;
@@ -75,7 +75,7 @@ export const HotelBox = styled.div`
   cursor: pointer;
 
   :hover {
-    background-color: ${props => props.selected ? '#FFEED2' : '#CCCCCC'};
+    background-color: ${(props) => (props.selected ? '#FFEED2' : '#CCCCCC')};
   }
 
   img {
