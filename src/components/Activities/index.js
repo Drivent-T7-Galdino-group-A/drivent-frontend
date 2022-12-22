@@ -26,7 +26,7 @@ export default function ActivitiesSelection() {
     <>
       <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
       <Wrapper paymentStatus={ticket?.status} isRemote={ticket?.TicketType.isRemote}>
-        {content}
+        { content }
       </Wrapper>
     </>
   );
