@@ -3,17 +3,30 @@ import useTicket from '../../hooks/api/useTicket';
 import { StyledTypography } from '../TicketAndPayment';
 import { Wrapper } from './Wrapper';
 import MenuHotel from './MenuHotel';
+import { useState } from 'react';
 
 export default function HotelAndRoom() {
+  const [selectedHotel, setSelectedHotel] = useState(0);
   const { ticket } = useTicket();
 
+  function selectHotelHandler(hotelId) {
+    if(hotelId === selectedHotel) {
+      setSelectedHotel(0);
+    } else {
+      setSelectedHotel(hotelId);
+    }
+  }
+  
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
       <Wrapper paymentConfirmed={ticket?.status}>
         {ticket?.status === 'PAID' ? (
-          ticket?.ticketType?.includesHotel === true ? (
-            <>Hotel: Em breve!</>
+          ticket?.TicketType.includesHotel ? (
+            <>
+              <MenuTitle>Primeiro, escolha seu hotel</MenuTitle>
+              <MenuHotel selectedHotel={selectedHotel} setSelectedHotel={setSelectedHotel} selectHotelHandler={selectHotelHandler} />
+            </>
           ) : (
             <WarningMessage paymentConfirmed={ticket?.status}>
               Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades
@@ -37,4 +50,11 @@ export const WarningMessage = styled.span`
   text-align: center;
   width: 411px;
   height: 46px;
+`;
+
+export const MenuTitle = styled.h2`
+  color: #8e8e8e;
+  font-family: 'Roboto';
+  font-size: 20px;
+  margin: 15px 0 20px 0;
 `;
