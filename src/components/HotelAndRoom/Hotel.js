@@ -1,25 +1,64 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function Hotel({ name, image, rooms, selected, selectHotelHandler }) {
+export default function Hotel({ name, image, rooms, selected, selectHotelHandler, isRoomSelected }) {
   const accommodations = typesOfAccommodation(rooms);
   const numberOfAvailablePositions = availablePositions(rooms);
+  const [selectedRoomName, setSelectedRoomName] = useState('101');
+  const [selectedRoomCapacity, setSelectedRoomCapacity] = useState(2);
+  const [quantityReserved, setQuantityReserved] = useState(2);
 
   return (
-    <HotelBox selected={selected} onClick={selectHotelHandler}>
-      <img src={image} alt="hotel" />
-      <h2>{name}</h2>
+    <>
+      {isRoomSelected ? (
+        <>
+          <HotelBox selected={selected} onClick={selectHotelHandler} isRoomSelected={isRoomSelected}>
+            <img src={image} alt="hotel" />
+            <h2>{name}</h2>
 
-      <div>
-        <h3>Tipos de acomodação:</h3>
-        <p>{accommodations}</p>
-      </div>
+            <div>
+              <h3>Quarto reservado:</h3>
+              <p>
+                {selectedRoomName}
+                {selectedRoomCapacity === 1 && '(Single)'}
+                {selectedRoomCapacity === 2 && '(Double)'}
+                {selectedRoomCapacity === 3 && '(Triple)'}
+              </p>
+            </div>
 
-      <div>
-        <h3>Vagas disponíveis:</h3>
-        <p>{numberOfAvailablePositions}</p>
-      </div>
-    </HotelBox>
+            <div>
+              <h3>Pessoas no seu quarto:</h3>
+              <p>
+                {quantityReserved === 1 && 'Somente você'}
+                {quantityReserved > 1 && `Você e mais ${quantityReserved - 1}`}
+              </p>
+            </div>
+          </HotelBox>
+          <ChangeRoomButton
+            onClick={() => {
+              console.log('Clicado');
+            }}
+          >
+            TROCAR DE QUARTO
+          </ChangeRoomButton>
+        </>
+      ) : (
+        <HotelBox selected={selected} onClick={selectHotelHandler}>
+          <img src={image} alt="hotel" />
+          <h2>{name}</h2>
+
+          <div>
+            <h3>Tipos de acomodação:</h3>
+            <p>{accommodations}</p>
+          </div>
+
+          <div>
+            <h3>Vagas disponíveis:</h3>
+            <p>{numberOfAvailablePositions}</p>
+          </div>
+        </HotelBox>
+      )}
+    </>
   );
 }
 
@@ -62,7 +101,7 @@ function typesOfAccommodation(rooms) {
 }
 
 function availablePositions(rooms) {
-  return rooms.reduce((acc, curr) => acc + (curr.capacity - curr._count.Booking), 0);
+  return rooms?.reduce((acc, curr) => acc + (curr.capacity - curr._count.Booking), 0);
 }
 
 export const HotelBox = styled.div`
@@ -103,5 +142,23 @@ export const HotelBox = styled.div`
     p {
       font-size: 12px;
     }
+  }
+`;
+
+const ChangeRoomButton = styled.button`
+  margin-top: 10px !important;
+  height: 37px !important;
+  width: 182px !important;
+  box-shadow: 0px 2px 10px 0px #00000040;
+  background: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+
+  @media (max-width: 600px) {
+    margin-bottom: 10px !important;
   }
 `;
