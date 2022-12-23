@@ -1,14 +1,17 @@
+import { useContext } from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import RoomContext from '../../contexts/RoomContext';
 import useHotels from '../../hooks/api/useHotels';
 import Hotel from './Hotel';
 
-export default function MenuHotel({ selectedHotel, selectHotelHandler, isRoomSelected, booking, selectedRoom }) {
+export default function MenuHotel({ selectedHotel, selectHotelHandler, booking, selectedRoom }) {
   const { hotels } = useHotels();
   const [quantityReserved, setQuantityReserved] = useState(0);
   const [bookedHotel, setBookedHotel] = useState([]);
   const [roomInfo, setRoomInfo] = useState([]);
   const [hotelInfo, setHotelInfo] = useState([]);
+  const { isRoomSelected } = useContext(RoomContext);
 
   useEffect(() => {
     if (selectedRoom > 0) {
@@ -36,13 +39,12 @@ export default function MenuHotel({ selectedHotel, selectHotelHandler, isRoomSel
   }, [booking, hotels, selectedRoom]);
 
   return (
-    <HotelContainer isRoomSelected={isRoomSelected} booking={booking}>
-      {isRoomSelected || booking ? (
+    <HotelContainer booking={booking}>
+      {isRoomSelected ? (
         <Hotel
           name={bookedHotel?.name || hotelInfo?.name}
           image={bookedHotel?.image || hotelInfo?.image}
           selected={true}
-          isRoomSelected={true}
           roomName={booking?.Room.name || roomInfo?.name}
           capacity={booking?.Room.capacity || roomInfo?.capacity}
           quantityReserved={quantityReserved || roomInfo?._count?.Booking + 1}

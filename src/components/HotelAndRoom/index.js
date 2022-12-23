@@ -6,11 +6,13 @@ import MenuHotel from './MenuHotel';
 import { useState } from 'react';
 import MenuRoom from './MenuRoom';
 import useBooking from '../../hooks/api/useBooking';
+import { useContext } from 'react';
+import RoomContext from '../../contexts/RoomContext';
 
 export default function HotelAndRoom() {
   const [selectedHotel, setSelectedHotel] = useState(0);
   const [rooms, setRooms] = useState([]);
-  const [isRoomSelected, setIsRoomSelected] = useState(false);
+  const { isRoomSelected } = useContext(RoomContext);
   const [selectedRoom, setSelectedRoom] = useState(0);
   const { booking } = useBooking();
   const { ticket } = useTicket();
@@ -31,14 +33,13 @@ export default function HotelAndRoom() {
       <Wrapper paymentConfirmed={ticket?.status} includesHotel={ticket?.TicketType.includesHotel}>
         {ticket?.status === 'PAID' ? (
           ticket?.TicketType.includesHotel ? (
-            isRoomSelected || booking ? (
+            isRoomSelected ? (
               <>
                 <MenuTitle>Você já escolheu seu quarto:</MenuTitle>
                 <MenuHotel
                   selectedHotel={selectedHotel}
                   setSelectedHotel={setSelectedHotel}
                   selectHotelHandler={selectHotelHandler}
-                  isRoomSelected={isRoomSelected}
                   booking={booking}
                   selectedRoom={selectedRoom}
                 />
@@ -50,7 +51,6 @@ export default function HotelAndRoom() {
                   selectedHotel={selectedHotel}
                   setSelectedHotel={setSelectedHotel}
                   selectHotelHandler={selectHotelHandler}
-                  isRoomSelected={isRoomSelected}
                   selectedRoom={selectedRoom}
                 />
                 {selectedHotel === 0 ? (
@@ -60,8 +60,6 @@ export default function HotelAndRoom() {
                     <MenuTitle>Ótima pedida! Agora escolha seu quarto:</MenuTitle>
                     <MenuRoom
                       rooms={rooms}
-                      isRoomSelected={isRoomSelected}
-                      setIsRoomSelected={setIsRoomSelected}
                       booking={booking}
                       selectedRoom={selectedRoom}
                       setSelectedRoom={setSelectedRoom}

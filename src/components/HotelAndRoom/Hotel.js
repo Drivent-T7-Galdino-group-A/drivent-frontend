@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
+import RoomContext from '../../contexts/RoomContext';
 
 export default function Hotel({
   name,
@@ -6,19 +8,19 @@ export default function Hotel({
   rooms,
   selected,
   selectHotelHandler,
-  isRoomSelected,
   quantityReserved,
   roomName,
   capacity,
 }) {
   const accommodations = typesOfAccommodation(rooms);
   const numberOfAvailablePositions = availablePositions(rooms);
+  const { isRoomSelected, setIsRoomSelected } = useContext(RoomContext);
 
   return (
     <>
       {isRoomSelected ? (
         <>
-          <HotelBox selected={selected} onClick={selectHotelHandler} isRoomSelected={isRoomSelected}>
+          <HotelBox selected={selected} onClick={selectHotelHandler}>
             <img src={image} alt="hotel" />
             <h2>{name}</h2>
 
@@ -42,7 +44,7 @@ export default function Hotel({
           </HotelBox>
           <ChangeRoomButton
             onClick={() => {
-              console.log('Clicado');
+              setIsRoomSelected(false);
             }}
           >
             TROCAR DE QUARTO

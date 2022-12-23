@@ -1,10 +1,17 @@
+import { useContext } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
+import RoomContext from '../../contexts/RoomContext';
+import useBooking from '../../hooks/api/useBooking';
+import useChangeBooking from '../../hooks/api/useChangeBooking';
 import useSaveBooking from '../../hooks/api/useSaveBooking';
 import Room from './Room';
 
-export default function MenuRoom({ rooms, setIsRoomSelected, selectedRoom, setSelectedRoom }) {
+export default function MenuRoom({ rooms, selectedRoom, setSelectedRoom }) {
   const { bookingLoading, saveBooking } = useSaveBooking(selectedRoom);
+  const { setIsRoomSelected } = useContext(RoomContext);
+  const { booking } = useBooking();
+  const { changeBooking } = useChangeBooking();
 
   function selecteRoomHandler(room) {
     if (room.id === selectedRoom) {
@@ -20,10 +27,15 @@ export default function MenuRoom({ rooms, setIsRoomSelected, selectedRoom, setSe
 
   async function submitBooking(roomId) {
     try {
-      await saveBooking({ roomId });
+      if (!booking) {
+        await saveBooking({ roomId });
+        toast('Reserva realizada com sucesso!');
+      } else {
+        await changeBooking(booking.id, { roomId });
+        toast('Troca de reserva realizada com sucesso!');
+      }
       setSelectedRoom(0);
       setIsRoomSelected(true);
-      toast('Reserva realizada com sucesso!');
     } catch (err) {
       toast('Não foi possível realizar a reserva!');
     }
