@@ -20,6 +20,7 @@ export default function MenuHotel({ selectedHotel, selectHotelHandler, booking, 
           if (hotel.Rooms[i].id === selectedRoom) {
             setRoomInfo(hotel.Rooms[i]);
             setHotelInfo(hotel);
+            break;
           }
         }
       });
@@ -36,23 +37,24 @@ export default function MenuHotel({ selectedHotel, selectHotelHandler, booking, 
     });
 
     setQuantityReserved(currentRoom?._count.Booking);
-  }, [booking, hotels, selectedRoom]);
+  }, [booking, hotels, selectedRoom, isRoomSelected]);
 
   return (
     <HotelContainer booking={booking}>
       {isRoomSelected ? (
         <Hotel
-          name={bookedHotel?.name || hotelInfo?.name}
-          image={bookedHotel?.image || hotelInfo?.image}
+          name={hotelInfo?.name || bookedHotel?.name}
+          image={hotelInfo?.image || bookedHotel?.image}
           selected={true}
-          roomName={booking?.Room.name || roomInfo?.name}
-          capacity={booking?.Room.capacity || roomInfo?.capacity}
-          quantityReserved={quantityReserved || roomInfo?._count?.Booking + 1}
+          roomName={roomInfo?.name || booking?.Room.name}
+          capacity={roomInfo?.capacity || booking?.Room.capacity}
+          quantityReserved={roomInfo?._count?.Booking + 1 || quantityReserved}
         />
       ) : (
         hotels?.map((hotel, index) => (
           <Hotel
             key={index}
+            id={hotel.id}
             name={hotel.name}
             image={hotel.image}
             rooms={hotel.Rooms}

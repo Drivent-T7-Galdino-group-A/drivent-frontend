@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import styled from 'styled-components';
 import RoomContext from '../../contexts/RoomContext';
+import useHotels from '../../hooks/api/useHotels';
 
 export default function Hotel({
   name,
@@ -11,10 +13,28 @@ export default function Hotel({
   quantityReserved,
   roomName,
   capacity,
+  id,
 }) {
   const accommodations = typesOfAccommodation(rooms);
-  const numberOfAvailablePositions = availablePositions(rooms);
+  const [numberOfAvailablePositions, setNumberOfAvailablePositions] = useState('10');
   const { isRoomSelected, setIsRoomSelected } = useContext(RoomContext);
+  const { hotels } = useHotels();
+
+  useEffect(() => {
+    let arrayRooms = [];
+
+    hotels?.map((hotel) => {
+      for (let i = 0; i < hotel.Rooms.length; i++) {
+        if (hotel.id === id) {
+          arrayRooms.push(hotel.Rooms[i]);
+        }
+      }
+    });
+
+    let result = arrayRooms.reduce((acc, curr) => acc + (curr.capacity - curr._count.Booking), 0);
+
+    setNumberOfAvailablePositions(result);
+  }, [numberOfAvailablePositions, hotels]);
 
   return (
     <>
@@ -106,10 +126,6 @@ function typesOfAccommodation(rooms) {
   } else {
     return `${result[0]}`;
   }
-}
-
-function availablePositions(rooms) {
-  return rooms?.reduce((acc, curr) => acc + (curr.capacity - curr._count.Booking), 0);
 }
 
 export const HotelBox = styled.div`
