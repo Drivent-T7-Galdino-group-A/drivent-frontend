@@ -9,7 +9,7 @@ import { useState } from 'react';
 export default function HotelAndRoom() {
   const [selectedHotel, setSelectedHotel] = useState(0);
   const { ticket } = useTicket();
-  const [isRoomSelected, setIsRoomSelected] = useState(true);
+  const [isRoomSelected, setIsRoomSelected] = useState(false);
 
   function selectHotelHandler(hotelId) {
     if (hotelId === selectedHotel) {

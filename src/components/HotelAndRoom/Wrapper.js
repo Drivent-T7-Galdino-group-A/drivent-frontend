@@ -2,10 +2,11 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   font-family: 'Roboto';
+  display: ${(props) => (props.paymentConfirmed !== 'PAID' ? 'flex' : '')};
   width: 100%;
   height: 90%;
-  justify-content: ${props => props.paymentConfirmed !== 'PAID' ? 'center' : ''};
-  align-items: ${props => props.paymentConfirmed !== 'PAID' ? 'center' : ''};
+  justify-content: ${(props) => (props.paymentConfirmed !== 'PAID' ? 'center' : '')};
+  align-items: ${(props) => (props.paymentConfirmed !== 'PAID' ? 'center' : '')};
   flex-wrap: wrap;
 
   h5 {
