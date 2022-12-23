@@ -1,31 +1,30 @@
-import { useState } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import useSaveBooking from '../../hooks/api/useSaveBooking';
 import Room from './Room';
 
-export default function MenuRoom({ rooms }) {
-  const [selectedRoom, setSelectedRoom] = useState(0);
+export default function MenuRoom({ rooms, setIsRoomSelected, selectedRoom, setSelectedRoom }) {
   const { bookingLoading, saveBooking } = useSaveBooking(selectedRoom);
 
   function selecteRoomHandler(room) {
-    if(room.id === selectedRoom) {
+    if (room.id === selectedRoom) {
       setSelectedRoom(0);
     } else {
-      if(room.capacity !== room._count.Booking) {
+      if (room.capacity !== room._count.Booking) {
         setSelectedRoom(room.id);
       } else {
         setSelectedRoom(0);
       }
     }
   }
-  
+
   async function submitBooking(roomId) {
     try {
       await saveBooking({ roomId });
       setSelectedRoom(0);
+      setIsRoomSelected(true);
       toast('Reserva realizada com sucesso!');
-    } catch(err) {
+    } catch (err) {
       toast('Não foi possível realizar a reserva!');
     }
   }
@@ -34,11 +33,11 @@ export default function MenuRoom({ rooms }) {
     <>
       <RoomsContainer>
         {rooms?.map((room, index) => (
-          <Room 
-            key={index} 
-            room={room} 
-            selected={room.id === selectedRoom} 
-            selecteRoomHandler={() => selecteRoomHandler(room)} 
+          <Room
+            key={index}
+            room={room}
+            selected={room.id === selectedRoom}
+            selecteRoomHandler={() => selecteRoomHandler(room)}
           />
         ))}
       </RoomsContainer>
@@ -63,7 +62,7 @@ const RoomsContainer = styled.div`
 `;
 
 const BookingButton = styled.button`
-  background-color: #E0E0E0;
+  background-color: #e0e0e0;
   font-family: 'Roboto';
   font-size: 14px;
   width: 182px;

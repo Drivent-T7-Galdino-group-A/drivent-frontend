@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import useTicket from '../../../hooks/api/useTicket';
@@ -10,6 +10,7 @@ import { FaCheckCircle } from 'react-icons/fa';
 export default function Payment() {
   const { ticket } = useTicket();
   const { processPayment, processPaymentLoading } = useProcessPayment();
+  const [paymentConcluded, setPaymentConcluded] = useState(false);
 
   const initialState = {
     number: '',
@@ -17,7 +18,7 @@ export default function Payment() {
     cvc: '',
     name: '',
     focus: '',
-    issuer: ''
+    issuer: '',
   };
 
   const [state, setState] = useState(initialState);
@@ -32,9 +33,10 @@ export default function Payment() {
           number: state.number,
           name: state.name,
           expirationDate: state.expiry,
-          cvc: state.cvc
-        }
+          cvc: state.cvc,
+        },
       });
+      setPaymentConcluded(true);
       toast('Pagamento efetuado com sucesso!');
     } catch (error) {
       toast('Não foi possível efetuar o pagamento!');
@@ -45,16 +47,15 @@ export default function Payment() {
     <>
       <StyledTypography variant="h5">Ingresso escolhido</StyledTypography>
       <TicketRecord>
-        <h5>{ticket?.TicketType.name} {ticket?.TicketType.includesHotel === true ? '+ Com Hotel' : ''}</h5>
+        <h5>
+          {ticket?.TicketType.name} {ticket?.TicketType.includesHotel === true ? '+ Com Hotel' : ''}
+        </h5>
         <h6>R$ {ticket?.TicketType.price / 100}</h6>
       </TicketRecord>
       <StyledTypography variant="h5">Pagamento</StyledTypography>
-      {ticket?.status === 'PAID' ? (
+      {ticket?.status === 'PAID' || paymentConcluded ? (
         <PaymentConcluded>
-          <FaCheckCircle
-            size='40px'
-            color='#36B853'
-          />
+          <FaCheckCircle size="40px" color="#36B853" />
           <div>
             <span>Pagamento confirmado!</span>
             <span>Prossiga para escolha de hospedagem e atividades</span>
@@ -63,10 +64,7 @@ export default function Payment() {
       ) : (
         <>
           <CreditCard state={state} setState={setState} />
-          <SubmitButton
-            onClick={handleSubmit}
-            disabled={processPaymentLoading}
-          >
+          <SubmitButton onClick={handleSubmit} disabled={processPaymentLoading}>
             FINALIZAR PAGAMENTO
           </SubmitButton>
         </>
@@ -130,7 +128,7 @@ const PaymentConcluded = styled.div`
       font-family: 'Roboto', sans-serif;
       text-align: left;
       font-size: 16px;
-      line-height: 19px;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+      line-height: 19px;
       color: #454545;
     }
 
@@ -142,5 +140,4 @@ const PaymentConcluded = styled.div`
       font-weight: 400;
     }
   }
-  
 `;
