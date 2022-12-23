@@ -3,22 +3,26 @@ import useTicket from '../../hooks/api/useTicket';
 import { StyledTypography } from '../TicketAndPayment';
 import { Wrapper } from './Wrapper';
 import MenuHotel from './MenuHotel';
-import Hotel from './Hotel';
 import { useState } from 'react';
+import MenuRoom from './MenuRoom';
 
 export default function HotelAndRoom() {
   const [selectedHotel, setSelectedHotel] = useState(0);
-  const { ticket } = useTicket();
-  const [isRoomSelected, setIsRoomSelected] = useState(true);
+  const [rooms, setRooms] = useState([]);
+  const [isRoomSelected, setIsRoomSelected] = useState(false);
 
-  function selectHotelHandler(hotelId) {
-    if (hotelId === selectedHotel) {
+  const { ticket } = useTicket();
+
+  function selectHotelHandler(hotel) {
+    if (hotel.id === selectedHotel) {
       setSelectedHotel(0);
+      setRooms([]);
     } else {
-      setSelectedHotel(hotelId);
+      setSelectedHotel(hotel.id);
+      setRooms(hotel.Rooms);
     }
   }
-
+  
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
@@ -44,6 +48,14 @@ export default function HotelAndRoom() {
                   selectHotelHandler={selectHotelHandler}
                   isRoomSelected={isRoomSelected}
                 />
+                {selectedHotel === 0 ? (
+                  <></>
+                ) : (
+                  <>
+                    <MenuTitle>Ótima pedida! Agora escolha seu quarto:</MenuTitle>
+                    <MenuRoom rooms={rooms} />
+                  </>
+                )}
               </>
             )
           ) : (

@@ -22,7 +22,7 @@ export default function MenuHotel({ selectedHotel, selectHotelHandler, isRoomSel
             image={hotel.image}
             rooms={hotel.Rooms}
             selected={hotel.id === selectedHotel}
-            selectHotelHandler={() => selectHotelHandler(hotel.id)}
+            selectHotelHandler={() => selectHotelHandler(hotel)}
           />
         ))
       )}
@@ -36,4 +36,5 @@ export const HotelContainer = styled.div`
   flex-wrap: wrap;
   width: 100%;
   gap: 19px;
+  margin-bottom: 52px;
 `;
