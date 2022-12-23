@@ -1,12 +1,18 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function Hotel({ name, image, rooms, selected, selectHotelHandler, isRoomSelected }) {
+export default function Hotel({
+  name,
+  image,
+  rooms,
+  selected,
+  selectHotelHandler,
+  isRoomSelected,
+  quantityReserved,
+  roomName,
+  capacity,
+}) {
   const accommodations = typesOfAccommodation(rooms);
   const numberOfAvailablePositions = availablePositions(rooms);
-  const [selectedRoomName, setSelectedRoomName] = useState('101');
-  const [selectedRoomCapacity, setSelectedRoomCapacity] = useState(2);
-  const [quantityReserved, setQuantityReserved] = useState(2);
 
   return (
     <>
@@ -19,10 +25,10 @@ export default function Hotel({ name, image, rooms, selected, selectHotelHandler
             <div>
               <h3>Quarto reservado:</h3>
               <p>
-                {selectedRoomName}
-                {selectedRoomCapacity === 1 && '(Single)'}
-                {selectedRoomCapacity === 2 && '(Double)'}
-                {selectedRoomCapacity === 3 && '(Triple)'}
+                {roomName}
+                {capacity === 1 && '(Single)'}
+                {capacity === 2 && '(Double)'}
+                {capacity === 3 && '(Triple)'}
               </p>
             </div>
 

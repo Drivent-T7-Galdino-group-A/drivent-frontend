@@ -5,8 +5,9 @@ export const Wrapper = styled.div`
   display: ${(props) => (props.paymentConfirmed !== 'PAID' ? 'flex' : '')};
   width: 100%;
   height: 90%;
-  justify-content: ${(props) => (props.paymentConfirmed !== 'PAID' ? 'center' : '')};
-  align-items: ${(props) => (props.paymentConfirmed !== 'PAID' ? 'center' : '')};
+  display: ${(props) => (props.paymentConfirmed === 'PAID' && props.includesHotel ? '' : 'flex')};
+  justify-content: ${(props) => (props.paymentConfirmed === 'PAID' && props.includesHotel ? '' : 'center')};
+  align-items: ${(props) => (props.paymentConfirmed === 'PAID' && props.includesHotel ? '' : 'center')};
   flex-wrap: wrap;
 
   h5 {

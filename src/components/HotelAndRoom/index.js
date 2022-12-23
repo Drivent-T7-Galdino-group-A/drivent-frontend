@@ -3,29 +3,35 @@ import useTicket from '../../hooks/api/useTicket';
 import { StyledTypography } from '../TicketAndPayment';
 import { Wrapper } from './Wrapper';
 import MenuHotel from './MenuHotel';
-import Hotel from './Hotel';
 import { useState } from 'react';
+import MenuRoom from './MenuRoom';
+import useBooking from '../../hooks/api/useBooking';
 
 export default function HotelAndRoom() {
   const [selectedHotel, setSelectedHotel] = useState(0);
-  const { ticket } = useTicket();
+  const [rooms, setRooms] = useState([]);
   const [isRoomSelected, setIsRoomSelected] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState(0);
+  const { booking } = useBooking();
+  const { ticket } = useTicket();
 
-  function selectHotelHandler(hotelId) {
-    if (hotelId === selectedHotel) {
+  function selectHotelHandler(hotel) {
+    if (hotel.id === selectedHotel) {
       setSelectedHotel(0);
+      setRooms([]);
     } else {
-      setSelectedHotel(hotelId);
+      setSelectedHotel(hotel.id);
+      setRooms(hotel.Rooms);
     }
   }
 
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      <Wrapper paymentConfirmed={ticket?.status}>
+      <Wrapper paymentConfirmed={ticket?.status} includesHotel={ticket?.TicketType.includesHotel}>
         {ticket?.status === 'PAID' ? (
           ticket?.TicketType.includesHotel ? (
-            isRoomSelected ? (
+            isRoomSelected || booking ? (
               <>
                 <MenuTitle>Você já escolheu seu quarto:</MenuTitle>
                 <MenuHotel
@@ -33,6 +39,8 @@ export default function HotelAndRoom() {
                   setSelectedHotel={setSelectedHotel}
                   selectHotelHandler={selectHotelHandler}
                   isRoomSelected={isRoomSelected}
+                  booking={booking}
+                  selectedRoom={selectedRoom}
                 />
               </>
             ) : (
@@ -43,11 +51,27 @@ export default function HotelAndRoom() {
                   setSelectedHotel={setSelectedHotel}
                   selectHotelHandler={selectHotelHandler}
                   isRoomSelected={isRoomSelected}
+                  selectedRoom={selectedRoom}
                 />
+                {selectedHotel === 0 ? (
+                  <></>
+                ) : (
+                  <>
+                    <MenuTitle>Ótima pedida! Agora escolha seu quarto:</MenuTitle>
+                    <MenuRoom
+                      rooms={rooms}
+                      isRoomSelected={isRoomSelected}
+                      setIsRoomSelected={setIsRoomSelected}
+                      booking={booking}
+                      selectedRoom={selectedRoom}
+                      setSelectedRoom={setSelectedRoom}
+                    />
+                  </>
+                )}
               </>
             )
           ) : (
-            <WarningMessage paymentConfirmed={ticket?.status}>
+            <WarningMessage>
               Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades
             </WarningMessage>
           )
@@ -60,9 +84,6 @@ export default function HotelAndRoom() {
 }
 
 export const WarningMessage = styled.span`
-  display: ${(props) => (props.paymentConfirmed === 'PAID' ? 'flex' : '')};
-  align-self: ${(props) => (props.paymentConfirmed === 'PAID' ? 'center' : '')};
-  margin-left: ${(props) => (props.paymentConfirmed === 'PAID' ? '22%' : '')};
   color: #8e8e8e;
   font-family: 'Roboto';
   font-size: 20px;

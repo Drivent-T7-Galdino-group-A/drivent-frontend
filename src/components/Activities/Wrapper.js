@@ -18,8 +18,6 @@ export const Wrapper = styled.div`
   }
 
   span {
-    justify-content: center;
-    align-items: center;
     color: #8e8e8e;
     font-size: 20px;
     text-align: center;
