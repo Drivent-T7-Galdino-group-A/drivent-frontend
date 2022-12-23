@@ -13,23 +13,32 @@ function filterDates() {
   return filter;
 }
 
-export default function MenuActivity() {
+export default function MenuActivity({ selectedDate, selectDateHandler }) {
   const dates = filterDates();
 
   return (
     <>
       <StyledTypography variant="h5">Primeiro, filtre pelo dia do evento: </StyledTypography>
       {dates?.map((date, index) => (
-        <Dates key={index} date={date} />
+        <Dates
+          key={index}
+          date={date}
+          selected={date === selectedDate}
+          selectDateHandler={() => selectDateHandler(date)}
+        />
       ))}
     </>
   );
 }
 
-function Dates({ date }) {
+function Dates({ date, selected, selectDateHandler }) {
   let dayWeek = dayjs(date).locale('pt-br').format('dddd, DD/MM').replace('-feira', '');
 
-  return <Button>{dayWeek}</Button>;
+  return (
+    <Button selected={selected} onClick={selectDateHandler}>
+      {dayWeek}
+    </Button>
+  );
 }
 
 const Button = styled.button`
@@ -44,5 +53,5 @@ const Button = styled.button`
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   margin-right: 17px;
   cursor: pointer;
-  background-color: #e0e0e0;
+  background-color: ${(props) => (props.selected ? '#FFD37D' : '#e0e0e0')};
 `;

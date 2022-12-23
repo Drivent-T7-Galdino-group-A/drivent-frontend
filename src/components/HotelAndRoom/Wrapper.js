@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   font-family: 'Roboto';
+  display: ${(props) => (props.paymentConfirmed !== 'PAID' ? 'flex' : '')};
   width: 100%;
   height: 90%;
   display: ${(props) => (props.paymentConfirmed === 'PAID' && props.includesHotel ? '' : 'flex')};
