@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  display: ${(props) => (props.paymentStatus === 'PAID' && !props.isRemote ? '' : 'center')};
+  display: ${(props) => (props.paymentStatus === 'PAID' && !props.isRemote ? '' : 'flex')};
   width: 100%;
   height: 90%;
   justify-content: ${(props) => (props.paymentStatus === 'PAID' && !props.isRemote ? '' : 'center')};
@@ -18,8 +18,6 @@ export const Wrapper = styled.div`
   }
 
   span {
-    justify-content: center;
-    align-items: center;
     color: #8e8e8e;
     font-size: 20px;
     text-align: center;

@@ -3,8 +3,10 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   font-family: 'Roboto';
   width: 100%;
-  justify-content: ${props => props.paymentConfirmed !== 'PAID' ? 'center' : ''};
-  align-items: ${props => props.paymentConfirmed !== 'PAID' ? 'center' : ''};
+  height: 90%;
+  display: ${(props) => (props.paymentConfirmed === 'PAID' && props.includesHotel ? '' : 'flex')};
+  justify-content: ${(props) => (props.paymentConfirmed === 'PAID' && props.includesHotel ? '' : 'center')};
+  align-items: ${(props) => (props.paymentConfirmed === 'PAID' && props.includesHotel ? '' : 'center')};
   flex-wrap: wrap;
 
   h5 {
