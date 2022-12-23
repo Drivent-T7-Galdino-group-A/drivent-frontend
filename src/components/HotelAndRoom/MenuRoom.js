@@ -30,7 +30,7 @@ export default function MenuRoom({ rooms, setIsRoomSelected, selectedRoom, setSe
   }
 
   return (
-    <>
+    <RoomsWrapper>
       <RoomsContainer>
         {rooms?.map((room, index) => (
           <Room
@@ -41,24 +41,26 @@ export default function MenuRoom({ rooms, setIsRoomSelected, selectedRoom, setSe
           />
         ))}
       </RoomsContainer>
-      {selectedRoom === 0 ? (
-        <></>
-      ) : (
+      {selectedRoom > 0 && (
         <BookingButton onClick={() => submitBooking(selectedRoom)} disabled={bookingLoading}>
           RESERVAR QUARTO
         </BookingButton>
       )}
-    </>
+    </RoomsWrapper>
   );
 }
+
+const RoomsWrapper = styled.div`
+  padding-bottom: 5px;
+`;
 
 const RoomsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   padding-top: 15px;
-  margin-bottom: 46px;
   gap: 8px 16px;
+  margin-bottom: 46px;
 `;
 
 const BookingButton = styled.button`
