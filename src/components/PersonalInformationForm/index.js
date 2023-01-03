@@ -33,10 +33,15 @@ export default function PersonalInformationForm() {
     validations: FormValidations,
 
     onSubmit: async(data) => {
+      const DD = data.birthday.split('-')[0];
+      const MM = data.birthday.split('-')[1];
+      const YYYY = data.birthday.split('-')[2];
+      const formatedBirthday = YYYY + '-' + ('0' + MM).slice(-2) + '-' + ('0' + DD).slice(-2);
+
       const newData = {
         name: data.name,
         cpf: data.cpf.replaceAll('.', '').replaceAll('-', ''),
-        birthday: dayjs(data.birthday).toISOString(),
+        birthday: dayjs(formatedBirthday).toISOString(),
         address: {
           cep: data.cep,
           street: data.street,
@@ -155,9 +160,9 @@ export default function PersonalInformationForm() {
               label="Data de Nascimento"
               inputVariant="outlined"
               clearable
-              value={dayjs(data.birthday).format('YYYY-MM-DD').toString()}
+              value={dayjs(data.birthday).format('DD-MM-YYYY').toString()}
               onChange={(date) => {
-                customHandleChange('birthday', (d) => d && dayjs(d).format('YYYY-MM-DD'))(date);
+                customHandleChange('birthday', (d) => d && dayjs(d).format('DD-MM-YYYY'))(date);
               }}
             />
             {errors.birthday && <ErrorMsg>{errors.birthday}</ErrorMsg>}
