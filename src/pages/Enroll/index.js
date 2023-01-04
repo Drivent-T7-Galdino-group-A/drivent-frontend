@@ -13,6 +13,8 @@ import EventInfoContext from '../../contexts/EventInfoContext';
 
 import useSignUp from '../../hooks/api/useSignUp';
 
+import { AiFillGithub } from 'react-icons/ai';
+
 export default function Enroll() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -54,9 +56,12 @@ export default function Enroll() {
           <Input label="Repita sua senha" type="password" fullWidth value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
           <Button type="submit" color="primary" fullWidth disabled={loadingSignUp}>Inscrever</Button>
         </form>
+        <Button fullWidth>
+          <AiFillGithub fontSize={'25'}/><h3>Inscrever com Github</h3>
+        </Button>
       </Row>
       <Row>
-        <Link to="/sign-in">Já está inscrito? Faça login</Link>
+        <Link to="/sign-in" marginTop>Já está inscrito? Faça login</Link>
       </Row>
     </AuthLayout>
   );

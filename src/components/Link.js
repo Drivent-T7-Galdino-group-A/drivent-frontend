@@ -4,6 +4,7 @@ import styled from 'styled-components';
 export default styled(Link)`
   text-decoration: none;
   color: #222;
+  margin-top: ${props => props.marginTop ? '30px' : ''};
 
   &:hover {
     text-decoration: underline;
