@@ -9,7 +9,7 @@ import Room from './Room';
 
 export default function MenuRoom({ rooms, selectedRoom, setSelectedRoom }) {
   const { bookingLoading, saveBooking } = useSaveBooking(selectedRoom);
-  const { setIsRoomSelected, isRender, setIsRender } = useContext(RoomContext);
+  const { setIsRoomSelected } = useContext(RoomContext);
   const { booking } = useBooking();
   const { changeBooking } = useChangeBooking();
 
