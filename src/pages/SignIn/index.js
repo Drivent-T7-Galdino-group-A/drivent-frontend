@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AiFillGithub } from 'react-icons/ai';
 
 import AuthLayout from '../../layouts/Auth';
 
@@ -13,19 +14,37 @@ import EventInfoContext from '../../contexts/EventInfoContext';
 import UserContext from '../../contexts/UserContext';
 
 import useSignIn from '../../hooks/api/useSignIn';
+import useSignInWithFireBase from '../../hooks/api/useSignInWithFirebase';
 
-import { AiFillGithub } from 'react-icons/ai';
+import { getAuth, signInWithPopup, GithubAuthProvider } from 'firebase/auth';
+import { app } from '../../services/firebaseConfig';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const { loadingSignIn, signIn } = useSignIn();
+  const { signInFirebase } = useSignInWithFireBase();
 
   const { eventInfo } = useContext(EventInfoContext);
   const { setUserData } = useContext(UserContext);
 
   const navigate = useNavigate();
+
+  const provider = new GithubAuthProvider();
+  const auth = getAuth(app);
+
+  async function handleLoginFromGithub() {
+    try {
+      const responseFirebase = await signInWithPopup(auth, provider);
+      const userData = await signInFirebase({ email: responseFirebase.user.email, idSession: responseFirebase.user.uid });
+      setUserData(userData);
+      toast('Login realizado com sucesso!');
+      navigate('/dashboard');
+    } catch (err) {
+      toast('Não foi possível fazer o login!');
+    }
+  }
 
   async function submit(event) {
     event.preventDefault();
@@ -61,8 +80,9 @@ export default function SignIn() {
             Entrar
           </Button>
         </form>
-        <Button fullWidth>
-          <AiFillGithub fontSize={'25'}/><h3>Entrar com Github</h3>
+        <Button fullWidth onClick={handleLoginFromGithub}>
+          <AiFillGithub fontSize={'25'} />
+          <h3>Entrar com Github</h3>
         </Button>
       </Row>
 
