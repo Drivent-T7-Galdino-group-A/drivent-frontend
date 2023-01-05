@@ -40,7 +40,7 @@ export default function NavigationBar() {
         </NavigationButton>
       </Link>
 
-      <Link to="/dashboard/hotel">
+      <Link to="/dashboard/hotel" onClick={isBooking}>
         <NavigationButton active={isActive('/dashboard/hotel')}>
           <FaBed />
           <span>Hotel</span>
