@@ -1,12 +1,15 @@
 import { StyledTypography } from '../TicketAndPayment';
 import { Wrapper } from './Wrapper';
 import useTicket from '../../hooks/api/useTicket';
+import useActivities from '../../hooks/api/useActivities';
 import MenuActivity from './MenuActivity';
+import Schedule from './Schedule';
 import { useState } from 'react';
 
 export default function ActivitiesSelection() {
   const [selectedDate, setSelectedDate] = useState(0);
   const { ticket } = useTicket();
+  const { activities } = useActivities();
 
   function selectDateHandler(date) {
     if (date === selectedDate) {
@@ -17,6 +20,7 @@ export default function ActivitiesSelection() {
   }
 
   let content;
+  let schedule = '';
 
   if (ticket?.TicketType.isRemote) {
     content = (
@@ -32,8 +36,17 @@ export default function ActivitiesSelection() {
     content = (
       <MenuActivity
         selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
         selectDateHandler={selectDateHandler}
+        activities={activities}
+      />
+    );
+  }
+
+  if (selectedDate !== 0) {
+    schedule = (
+      <Schedule
+        selectedDate={selectedDate}
+        activities={activities}
       />
     );
   }
@@ -43,6 +56,7 @@ export default function ActivitiesSelection() {
       <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
       <Wrapper paymentStatus={ticket?.status} isRemote={ticket?.TicketType.isRemote}>
         {content}
+        {schedule}
       </Wrapper>
     </>
   );
