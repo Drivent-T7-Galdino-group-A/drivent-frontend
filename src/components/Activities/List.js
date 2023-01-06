@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { CgEnter, CgCheckO, CgCloseO } from 'react-icons/cg';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
+import useCreateActivity from '../../hooks/api/useCreateActivity';
 
 function filterActivitiesByLocalization({ activities, localizationId }) {
   const filteredActivities = activities?.filter((activity) => activity.Localization.id === localizationId);
@@ -23,12 +24,9 @@ function differenceBetweenDatesInHours({ startTime, endTime }) {
 export default function List({ activitiesFromDay, localizationId }) {
   const filteredActivities = filterActivitiesByLocalization({ activities: activitiesFromDay, localizationId });
   sortActivitiesByTime(filteredActivities);
+  const { createActivity } = useCreateActivity();
 
-  function createActivity() {
-    toast('Inscrição confirmada!');
-  }
-
-  function confirmActivityCreation() {
+  function bookActivity(activityId) {
     Swal.fire({
       title: 'Tem certeza que deseja se insecrever?',
       text: 'Você não poderá retirar a inscrição depois!',
@@ -38,9 +36,14 @@ export default function List({ activitiesFromDay, localizationId }) {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Confirmar!',
       cancelButtonText: 'Cancelar',
-    }).then((result) => {
+    }).then(async(result) => {
       if (result.isConfirmed) {
-        createActivity();
+        try {
+          await createActivity({ activityId });
+          toast('Inscrição confirmada!');
+        } catch (error) {
+          toast('A incrição falou, você possui outra atividade neste horário!');
+        }
       }
     });
   }
@@ -57,7 +60,7 @@ export default function List({ activitiesFromDay, localizationId }) {
           </div>
           <CapacityBox capacity={activity.capacity}>
             {activity.capacity > 0 ? (
-              <div onClick={confirmActivityCreation}>
+              <div onClick={() => bookActivity(activity.id)}>
                 <div>
                   <CgEnter color="#078632" size="22px" />
                 </div>
