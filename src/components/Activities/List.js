@@ -20,8 +20,8 @@ function differenceBetweenDatesInHours({ startTime, endTime }) {
   return difference;
 }
 
-export default function List({ activitiesFromDay, localizationId }) {
-  const filteredActivities = filterActivitiesByLocalization({ activities: activitiesFromDay, localizationId });
+export default function List({ activities, localizationId }) {
+  const filteredActivities = filterActivitiesByLocalization({ activities, localizationId });
   sortActivitiesByTime(filteredActivities);
 
   return (
