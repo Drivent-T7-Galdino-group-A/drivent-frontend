@@ -2,15 +2,14 @@ import 'dayjs/locale/pt-br';
 import { StyledTypography } from '../TicketAndPayment/index';
 import Dates from './Dates';
 
-function filterDates(activities) {
-  let allDates = activities?.map((a) => a.date.slice(0, 10));
+function formatDates(dates) {
+  const formattedDates = dates?.map(date => date.date.slice(0, 10));
 
-  let filter = allDates?.filter((elem, i) => allDates.indexOf(elem) === i);
-  return filter;
+  return formattedDates;
 }
 
-export default function MenuActivity({ selectedDate, selectDateHandler, activities }) {
-  const dates = filterDates(activities);
+export default function MenuActivity({ selectedDate, selectDateHandler, dates }) {
+  const formattedDates = formatDates(dates);
 
   let callToFilter = '';
 
@@ -23,7 +22,7 @@ export default function MenuActivity({ selectedDate, selectDateHandler, activiti
   return (
     <>
       {callToFilter}
-      {dates?.map((date, index) => (
+      {formattedDates?.map((date, index) => (
         <Dates
           key={index}
           date={date}
