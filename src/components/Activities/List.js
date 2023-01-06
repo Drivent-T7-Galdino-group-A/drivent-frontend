@@ -27,23 +27,32 @@ export default function List({ activitiesFromDay, localizationId }) {
   return (
     <Wrapper>
       {
-        filteredActivities?.map(activity =>
+        filteredActivities?.map((activity, index) =>
           <Lecture
+            key={index}
             quantityOfHours={differenceBetweenDatesInHours(activity)}
           >
             <div>
               <div>{activity.name}</div>
               <div>{activity.startTime.slice(11, 16)} - {activity.endTime.slice(11, 16)}</div>
             </div>
-            <div>
-              <div>
-                <CgCloseO
-                  color='#CC6666'
-                  size='16px'
-                />
-              </div>
-              <div>Esgotado</div>
-            </div>
+            <CapacityBox capacity={activity.capacity}>
+              {activity.capacity > 0 ? (
+                <>
+                  <div>
+                    <CgEnter color='#078632' size='22px'/>
+                  </div>
+                  <div>{activity.capacity} vagas</div>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <CgCloseO color='#CC6666' size='18px'/>
+                  </div>
+                  <div>Esgotado</div>
+                </>
+              )}
+            </CapacityBox>
           </Lecture >
         )
       }
@@ -95,12 +104,14 @@ const Lecture = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    > div:nth-child(2) {
-      font-weight: 400;
-      font-size: 9px;
-      line-height: 11px;
-      color: #CC6666;
-    }
   }
+`;
+
+const CapacityBox = styled.div`
+  font-weight: 400;
+  font-size: 9px;
+  line-height: 11px;
+  padding-left: 8px;
+  color: ${props => props.capacity > 0 ? '#078632' : '#CC6666'};
+  cursor: ${props => props.capacity > 0 ? 'pointer' : ''};
 `;
