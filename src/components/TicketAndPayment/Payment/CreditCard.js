@@ -44,9 +44,11 @@ export default function CreditCard({ state, setState }) {
       />
       <form>
         <input
-          type="number"
+          type="text"
           name="number"
           placeholder="Card Number"
+          minLength="12"
+          maxLength="19"
           value={state.number}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
@@ -64,6 +66,8 @@ export default function CreditCard({ state, setState }) {
             type="expiry"
             name="expiry"
             placeholder="Valid Thru"
+            minLength="4"
+            maxLength="4"
             value={state.expiry}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
@@ -72,6 +76,8 @@ export default function CreditCard({ state, setState }) {
             type="cvc"
             name="cvc"
             placeholder="CVC"
+            minLength="3"
+            maxLength="4"
             value={state.cvc}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
