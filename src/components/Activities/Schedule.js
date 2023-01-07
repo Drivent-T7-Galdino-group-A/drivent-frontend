@@ -1,22 +1,19 @@
 import styled from 'styled-components';
+import useActivitiesByDate from '../../hooks/api/useActivitiesByDate';
+import useLocalizations from '../../hooks/api/useLocalizations';
 import { StyledTypography } from '../TicketAndPayment/index';
 import List from './List';
 
-function filterLocalizations(activities) {
-  const allLocalizations = activities?.map(activity => ({ ...activity.Localization }));
-
-  const allLocalizationIds = allLocalizations?.map(localization => localization.id);
-
-  const filteredLocalizations = allLocalizations?.filter((localization, index) =>
-    allLocalizationIds.indexOf(localization.id) === index
-  );
-
-  return filteredLocalizations;
+function formatDateToIsoString(date) {
+  const formattedDate = `${date}T00:00:00.000Z`;
+  return formattedDate;
 }
 
-export default function Schedule({ selectedDate, activities }) {
-  const activitiesFromDay = activities?.filter(activity => activity.date.slice(0, 10) === selectedDate);
-  const localizations = filterLocalizations(activities);
+export default function Schedule({ selectedDate }) {
+  const formattedDate = formatDateToIsoString(selectedDate);
+  
+  const { activitiesByDate: activities } = useActivitiesByDate(formattedDate);
+  const { localizations } = useLocalizations();
 
   return (
     <Wrapper >
@@ -27,7 +24,7 @@ export default function Schedule({ selectedDate, activities }) {
         >
           <StyledTypography variant="h6">{localization.name}</StyledTypography>
           <List
-            activitiesFromDay={activitiesFromDay}
+            activities={activities}
             localizationId={localization.id}
             selectedDate={selectedDate}
           />

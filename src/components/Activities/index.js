@@ -1,7 +1,7 @@
 import { StyledTypography } from '../TicketAndPayment';
 import { Wrapper } from './Wrapper';
 import useTicket from '../../hooks/api/useTicket';
-import useActivities from '../../hooks/api/useActivities';
+import useDates from '../../hooks/api/useDates';
 import MenuActivity from './MenuActivity';
 import Schedule from './Schedule';
 import { useState } from 'react';
@@ -9,7 +9,7 @@ import { useState } from 'react';
 export default function ActivitiesSelection() {
   const [selectedDate, setSelectedDate] = useState(0);
   const { ticket } = useTicket();
-  const { activities } = useActivities();
+  const { dates } = useDates();
 
   function selectDateHandler(date) {
     if (date === selectedDate) {
@@ -37,7 +37,7 @@ export default function ActivitiesSelection() {
       <MenuActivity
         selectedDate={selectedDate}
         selectDateHandler={selectDateHandler}
-        activities={activities}
+        dates={dates}
       />
     );
   }
@@ -46,7 +46,6 @@ export default function ActivitiesSelection() {
     schedule = (
       <Schedule
         selectedDate={selectedDate}
-        activities={activities}
       />
     );
   }
