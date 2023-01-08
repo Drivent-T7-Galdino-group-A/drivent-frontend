@@ -40,7 +40,7 @@ export default function MenuHotel({ selectedHotel, selectHotelHandler, booking, 
   }, [booking, hotels, selectedRoom, isRoomSelected]);
 
   return (
-    <HotelContainer booking={booking}>
+    <HotelContainer booking={booking} isRoomSelected={isRoomSelected}>
       {isRoomSelected ? (
         <Hotel
           name={hotelInfo?.name || bookedHotel?.name}

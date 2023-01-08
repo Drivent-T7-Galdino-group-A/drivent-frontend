@@ -30,7 +30,7 @@ export default function Payment() {
         ticketId: ticket?.id,
         cardData: {
           issuer: state.issuer,
-          number: state.number,
+          number: state.number.replaceAll(' ', ''),
           name: state.name,
           expirationDate: state.expiry,
           cvc: state.cvc,

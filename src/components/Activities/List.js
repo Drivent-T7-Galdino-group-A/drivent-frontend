@@ -52,33 +52,26 @@ const Lecture = styled.div`
   padding: 10px 3%;
   background-color: #f1f1f1;
   border-radius: 5px;
-
   display: flex;
   justify-content: space-between;
-
   font-family: 'Roboto';
-
   > div:nth-child(1) {
     font-size: 12px;
     line-height: 14px;
     color: #343434;
-
     > div:nth-child(1) {
       font-weight: 700;
     }
-
     > div:nth-child(2) {
       margin-top: 5px;
       font-weight: 400;
     }
   }
-
   > div:nth-child(2) {
     width: 65px;
     min-width: 65px;
     height: ${(props) => 90 * props.quantityOfHours - 30}px;
     border-left: 1px solid #cfcfcf;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
