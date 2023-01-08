@@ -6,12 +6,21 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import useActivityTicket from '../../hooks/api/useActivityTicket';
 
-export default function CapacityBox({ activity, selectedDate }) {
+export default function CapacityBox({ activity, selectedDate, ticket, isRegistered, setIsRegistered }) {
   const [availableVacancies, setAvailableVacancies] = useState(activity.capacity);
-
-  const { createActivity } = useCreateActivity();
   const { getNumberOfEnrollmentsByActivity } = useNumberOfEnrollmentsByActivity(activity.id);
+  const { createActivity } = useCreateActivity();
+  const activityId = activity.id;
+  const { activityTicket: activityTickets } = useActivityTicket(activityId);
+
+  useEffect(() => {
+    const res = activityTickets?.find((activityTicket) => activityTicket.ticketId === ticket.id);
+    if (res) {
+      setIsRegistered(true);
+    }
+  }, [activityTickets]);
 
   useEffect(async() => {
     const result = await getNumberOfEnrollmentsByActivity();
@@ -42,8 +51,21 @@ export default function CapacityBox({ activity, selectedDate }) {
     });
   }
 
+  if (isRegistered) {
+    return (
+      <Container capacity={activity.capacity} isRegistered={isRegistered}>
+        <div>
+          <div>
+            <CgCheckO color="#078632" size="22px" />
+          </div>
+          <div>Inscrito</div>
+        </div>
+      </Container>
+    );
+  }
+
   return (
-    <Container capacity={activity.capacity}>
+    <Container capacity={activity.capacity} isRegistered={isRegistered}>
       {activity.capacity > 0 ? (
         <div onClick={() => bookActivity(activity.id)}>
           <div>
@@ -69,7 +91,7 @@ const Container = styled.div`
   line-height: 11px;
   padding-left: 8px;
   color: ${(props) => (props.capacity > 0 ? '#078632' : '#CC6666')};
-  cursor: ${(props) => (props.capacity > 0 ? 'pointer' : '')};
+  cursor: ${(props) => (props.capacity > 0 && !props.isRegistered ? 'pointer' : '')};
 
   > div {
     display: flex;
@@ -78,5 +100,9 @@ const Container = styled.div`
     height: 100%;
     align-items: center;
     justify-content: center;
+  }
+
+  .activity-wrapper {
+    background-color: ${(props) => (props.isRegistered ? '#078632' : '')};
   }
 `;

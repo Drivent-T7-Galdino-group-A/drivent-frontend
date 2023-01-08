@@ -9,14 +9,14 @@ function formatDateToIsoString(date) {
   return formattedDate;
 }
 
-export default function Schedule({ selectedDate }) {
+export default function Schedule({ selectedDate, ticket }) {
   const formattedDate = formatDateToIsoString(selectedDate);
   
   const { activitiesByDate: activities } = useActivitiesByDate(formattedDate);
   const { localizations } = useLocalizations();
 
   return (
-    <Wrapper >
+    <Wrapper className='activityWrapper'>
       {localizations?.map((localization, index) => (
         <Localization
           key={index}
@@ -27,6 +27,7 @@ export default function Schedule({ selectedDate }) {
             activities={activities}
             localizationId={localization.id}
             selectedDate={selectedDate}
+            ticket={ticket}
           />
         </Localization>
       ))
