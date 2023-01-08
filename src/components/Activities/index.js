@@ -46,6 +46,7 @@ export default function ActivitiesSelection() {
     schedule = (
       <Schedule
         selectedDate={selectedDate}
+        ticket={ticket}
       />
     );
   }

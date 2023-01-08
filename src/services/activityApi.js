@@ -14,7 +14,17 @@ export async function getNumberOfEnrollmentsByActivity(token, activityId) {
   const response = await api.get(`/activities/activity-tickets/${activityId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
-    }
+    },
+  });
+
+  return response.data;
+}
+
+export async function getActivityTicket(token, activityId) {
+  const response = await api.get(`/activities/tickets/${activityId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   return response.data;
