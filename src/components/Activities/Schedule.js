@@ -26,6 +26,7 @@ export default function Schedule({ selectedDate }) {
           <List
             activities={activities}
             localizationId={localization.id}
+            selectedDate={selectedDate}
           />
         </Localization>
       ))
