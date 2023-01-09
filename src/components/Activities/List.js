@@ -14,7 +14,7 @@ export default function List({
   activities,
   localizationId,
   selectedDate,
-  ticket,
+  ticket
 }) {
   const filteredActivities = filterActivitiesByLocalization({ activities, localizationId });
   sortActivitiesByTime(filteredActivities);

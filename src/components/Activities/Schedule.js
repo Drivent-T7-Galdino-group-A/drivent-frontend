@@ -5,6 +5,8 @@ import useActivitiesByDate from '../../hooks/api/useActivitiesByDate';
 import useLocalizations from '../../hooks/api/useLocalizations';
 import { StyledTypography } from '../TicketAndPayment/index';
 import List from './List';
+import { useContext } from 'react';
+import ReRenderContext from '../../contexts/ReRenderContext';
 
 function formatDateToIsoString(date) {
   const formattedDate = `${date}T00:00:00.000Z`;
@@ -12,6 +14,7 @@ function formatDateToIsoString(date) {
 }
 
 export default function Schedule({ selectedDate, ticket }) {
+  const { reRender } = useContext(ReRenderContext);
   const formattedDate = formatDateToIsoString(selectedDate);
 
   const { activitiesByDate: activities, getActivitiesByDate } = useActivitiesByDate(formattedDate);
@@ -27,7 +30,7 @@ export default function Schedule({ selectedDate, ticket }) {
 
   useEffect(() => {
     getDatesActivities();
-  }, [selectedDate]);
+  }, [selectedDate, reRender]);
 
   return (
     <Wrapper className="activityWrapper">
