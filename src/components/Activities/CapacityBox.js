@@ -31,7 +31,7 @@ export default function CapacityBox({ activity, selectedDate, ticket, isRegister
 
   function bookActivity(activityId) {
     Swal.fire({
-      title: 'Tem certeza que deseja se insecrever?',
+      title: 'Tem certeza que deseja se inscrever?',
       text: 'Você não poderá retirar a inscrição depois!',
       icon: 'warning',
       showCancelButton: true,
