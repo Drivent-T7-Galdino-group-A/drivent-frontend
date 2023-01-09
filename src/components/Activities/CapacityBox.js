@@ -4,30 +4,19 @@ import useNumberOfEnrollmentsByActivity from '../../hooks/api/useNumberOfEnrollm
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import useActivityTicket from '../../hooks/api/useActivityTicket';
+import { useState, useEffect } from 'react';
 
-export default function CapacityBox({ activity, selectedDate, ticket, isRegistered, setIsRegistered }) {
+export default function CapacityBox({ activity, activities, selectedDate, isRegistered, setIsRegistered }) {
   const [availableVacancies, setAvailableVacancies] = useState(activity.capacity);
   const { getNumberOfEnrollmentsByActivity } = useNumberOfEnrollmentsByActivity(activity.id);
   const { createActivity } = useCreateActivity();
-  const activityId = activity.id;
-  const { activityTicket: activityTickets } = useActivityTicket(activityId);
-
-  useEffect(() => {
-    const res = activityTickets?.find((activityTicket) => activityTicket.ticketId === ticket.id);
-    if (res) {
-      setIsRegistered(true);
-    }
-  }, [activityTickets]);
 
   useEffect(async() => {
     const result = await getNumberOfEnrollmentsByActivity();
     const vacancies = activity.capacity - result.numberOfEnrollments;
 
     setAvailableVacancies(vacancies);
-  }, [availableVacancies, selectedDate]);
+  }, [availableVacancies, selectedDate, activities, isRegistered]);
 
   function bookActivity(activityId) {
     Swal.fire({
@@ -42,6 +31,7 @@ export default function CapacityBox({ activity, selectedDate, ticket, isRegister
     }).then(async(result) => {
       if (result.isConfirmed) {
         try {
+          setIsRegistered(!isRegistered);
           await createActivity({ activityId });
           toast('Inscrição confirmada!');
         } catch (error) {
