@@ -10,14 +10,25 @@ function filterActivitiesByLocalization({ activities, localizationId }) {
 function sortActivitiesByTime(activities) {
   activities?.sort((a, b) => dayjs(a.startTime).diff(dayjs(b.startTime)));
 }
-export default function List({ activities, localizationId, selectedDate, ticket }) {
+export default function List({
+  activities,
+  localizationId,
+  selectedDate,
+  ticket,
+}) {
   const filteredActivities = filterActivitiesByLocalization({ activities, localizationId });
   sortActivitiesByTime(filteredActivities);
 
   return (
     <Wrapper>
       {filteredActivities?.map((activity, index) => (
-        <Lecture key={index} activity={activity} ticket={ticket} selectedDate={selectedDate} />
+        <Lecture
+          key={index}
+          activity={activity}
+          ticket={ticket}
+          selectedDate={selectedDate}
+          activities={activities}
+        />
       ))}
     </Wrapper>
   );

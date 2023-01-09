@@ -32,12 +32,38 @@ export default function Schedule({ selectedDate, ticket }) {
   return (
     <Wrapper className="activityWrapper">
       {localizations?.map((localization, index) => (
-        <Localization key={index} quantityOfLocalizations={localizations?.length}>
-          <StyledTypography variant="h6">{localization.name}</StyledTypography>
-          <List activities={activities} localizationId={localization.id} selectedDate={selectedDate} ticket={ticket} />
-        </Localization>
+        <Localization
+          key={index}
+          localizationsLength={localizations.length}
+          localization={localization}
+          activities={activities}
+          localizationId={localization.id}
+          selectedDate={selectedDate}
+          ticket={ticket}
+        />
       ))}
     </Wrapper>
+  );
+}
+
+function Localization({
+  localizationsLength,
+  localization,
+  activities,
+  localizationId,
+  selectedDate,
+  ticket,
+}) {
+  return (
+    <Container quantityOfLocalizations={localizationsLength}>
+      <StyledTypography variant="h6">{localization.name}</StyledTypography>
+      <List
+        activities={activities}
+        localizationId={localizationId}
+        selectedDate={selectedDate}
+        ticket={ticket}
+      />
+    </Container>
   );
 }
 
@@ -52,7 +78,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Localization = styled.div`
+const Container = styled.div`
   width: ${(props) => (props.quantityOfLocalizations ? Math.round(100 / props.quantityOfLocalizations) : 0)}%;
   height: 80%;
 `;

@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import CapacityBox from './CapacityBox';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import useActivityTicket from '../../hooks/api/useActivityTicket';
+import { toast } from 'react-toastify';
 
 function differenceBetweenDatesInHours({ startTime, endTime }) {
   const start = dayjs(startTime);
@@ -10,8 +12,34 @@ function differenceBetweenDatesInHours({ startTime, endTime }) {
   return difference;
 }
 
-export default function Lecture({ index, activity, ticket, selectedDate }) {
+export default function Lecture({ index, activity, ticket, selectedDate, activities }) {
   const [isRegistered, setIsRegistered] = useState(false);
+  const activityId = activity.id;
+  const { activityTicket: activityTickets, getActivityTicket } = useActivityTicket(activityId);
+
+  async function getActivityTickets() {
+    try {
+      await getActivityTicket();
+    } catch (error) {
+      toast('Não foi possível carregar as reservas de atividades!');
+    }
+  }
+
+  useEffect(() => {
+    getActivityTickets();
+  }, [selectedDate, activities, isRegistered]);
+
+  useEffect(() => {
+    const res = activityTickets?.find(
+      (activityTicket) => activityTicket.ticketId === ticket.id && activityTicket.activityId === activityId
+    );
+
+    if (res) {
+      return setIsRegistered(true);
+    }
+
+    setIsRegistered(false);
+  }, [activityTickets, isRegistered, activities]);
 
   return (
     <Wrapper key={index} quantityOfHours={differenceBetweenDatesInHours(activity)} isRegistered={isRegistered}>
@@ -24,6 +52,7 @@ export default function Lecture({ index, activity, ticket, selectedDate }) {
       <CapacityBox
         key={index}
         activity={activity}
+        activities={activities}
         selectedDate={selectedDate}
         ticket={ticket}
         isRegistered={isRegistered}
@@ -44,7 +73,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   font-family: 'Roboto';
   background-color: ${(props) => (props.isRegistered ? '#D0FFDB' : '')};
-  
+
   > div:nth-child(1) {
     font-size: 12px;
     line-height: 14px;
