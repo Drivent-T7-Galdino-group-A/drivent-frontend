@@ -58,8 +58,8 @@ export default function CapacityBox({ activity, activities, selectedDate, isRegi
   }
 
   return (
-    <Container capacity={activity.capacity} isRegistered={isRegistered}>
-      {activity.capacity > 0 ? (
+    <Container capacity={availableVacancies} isRegistered={isRegistered}>
+      {availableVacancies > 0 ? (
         <div onClick={() => bookActivity(activity.id)}>
           <div>
             <CgEnter color="#078632" size="22px" />
