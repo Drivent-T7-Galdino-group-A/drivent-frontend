@@ -4,12 +4,14 @@ import useNumberOfEnrollmentsByActivity from '../../hooks/api/useNumberOfEnrollm
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import ReRenderContext from '../../contexts/ReRenderContext';
 
-export default function CapacityBox({ activity, activities, selectedDate, isRegistered, setIsRegistered }) {
+export default function CapacityBox({ activity, activities, selectedDate, isRegistered }) {
   const [availableVacancies, setAvailableVacancies] = useState(activity.capacity);
   const { getNumberOfEnrollmentsByActivity } = useNumberOfEnrollmentsByActivity(activity.id);
   const { createActivity } = useCreateActivity();
+  const { setReRender } = useContext(ReRenderContext);
 
   useEffect(async() => {
     const result = await getNumberOfEnrollmentsByActivity();
@@ -31,8 +33,9 @@ export default function CapacityBox({ activity, activities, selectedDate, isRegi
     }).then(async(result) => {
       if (result.isConfirmed) {
         try {
-          setIsRegistered(!isRegistered);
           await createActivity({ activityId });
+          setReRender(true);
+          setReRender(false);
           toast('Inscrição confirmada!');
         } catch (error) {
           toast('A inscrição falhou, você possui outra atividade neste horário!');
