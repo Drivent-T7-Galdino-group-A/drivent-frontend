@@ -115,6 +115,10 @@ const SubmitButton = styled.button`
   font-size: 14px;
   font-weight: 400;
   cursor: pointer;
+
+  @media (max-width: 600px){
+    margin-bottom: 20px;
+  }
 `;
 
 const PaymentConcluded = styled.div`
@@ -138,6 +142,20 @@ const PaymentConcluded = styled.div`
 
     > span:nth-child(2) {
       font-weight: 400;
+    }
+
+    @media (max-width: 600px) {
+      > div:last-child {
+        width: 90vw;
+        height: 40px;
+        margin-left: 0px;
+      }
+      
+      > span {
+        width: 75vw;
+        font-size: 15px;
+        margin-right: 25vw;
+      }
     }
   }
 `;

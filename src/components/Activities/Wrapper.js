@@ -34,9 +34,17 @@ export const Wrapper = styled.div`
   }
 
   @media (max-width: 600px) {
-    > div {
-      width: 40%;
-      padding-left: 0px !important;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+
+    h5{
+      font-size: 22px !important;
+      height: 50px;
+    }
+
+    h6{
+      font-size: 22px !important;
     }
   }
 `;

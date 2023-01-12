@@ -7,34 +7,28 @@ export default function CreditCard({ state, setState }) {
   function handleInputChange(event) {
     const { name, value } = event.target;
 
-    setState(data =>
-      ({
-        ...data,
-        [name]: value
-      })
-    );
+    setState((data) => ({
+      ...data,
+      [name]: value,
+    }));
   }
 
   function handleInputFocus(event) {
-    setState(data =>
-      ({
-        ...data,
-        focus: event.target.name
-      })
-    );
+    setState((data) => ({
+      ...data,
+      focus: event.target.name,
+    }));
   }
 
   function handleCardNumberChange({ issuer, maxLength }, isValid) {
-    setState(data => 
-      ({
-        ...data,
-        issuer
-      })
-    );
+    setState((data) => ({
+      ...data,
+      issuer,
+    }));
   }
 
   return (
-    <Wrapper id='CreditCard'>
+    <Wrapper id="CreditCard">
       <Cards
         number={state.number}
         expiry={state.expiry}
@@ -109,7 +103,7 @@ const Wrapper = styled.div`
     border-radius: 5px;
     border-color: rgba(0, 0, 0, 0.2);
     outline: none;
-    
+
     &:focus {
       border-color: rgba(0, 0, 0, 0.5);
     }
@@ -123,7 +117,7 @@ const Wrapper = styled.div`
     > div {
       > input:first-child {
         width: 200px;
-      };
+      }
 
       > input:last-child {
         width: 100px;
@@ -131,6 +125,22 @@ const Wrapper = styled.div`
 
       display: flex;
       justify-content: space-between;
+    }
+  }
+
+  @media (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    form {
+      gap: 10px;
+
+      > div {
+        > input:last-child {
+          margin: auto;
+        }
+      }
     }
   }
 `;

@@ -64,6 +64,7 @@ export default function MenuRoom({ rooms, selectedRoom, setSelectedRoom }) {
 
 const RoomsWrapper = styled.div`
   padding-bottom: 5px;
+
 `;
 
 const RoomsContainer = styled.div`
@@ -73,6 +74,12 @@ const RoomsContainer = styled.div`
   padding-top: 15px;
   gap: 8px 16px;
   margin-bottom: 46px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    width: 50vw;
+    margin-left: 18vw;
+  }
 `;
 
 const BookingButton = styled.button`
@@ -87,4 +94,8 @@ const BookingButton = styled.button`
   border-radius: 4px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   cursor: pointer;
+
+  @media(max-width: 600px){
+    margin-left: 20vw;
+  }
 `;

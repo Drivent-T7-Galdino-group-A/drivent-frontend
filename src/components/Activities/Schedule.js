@@ -49,23 +49,11 @@ export default function Schedule({ selectedDate, ticket }) {
   );
 }
 
-function Localization({
-  localizationsLength,
-  localization,
-  activities,
-  localizationId,
-  selectedDate,
-  ticket,
-}) {
+function Localization({ localizationsLength, localization, activities, localizationId, selectedDate, ticket }) {
   return (
     <Container quantityOfLocalizations={localizationsLength}>
       <StyledTypography variant="h6">{localization.name}</StyledTypography>
-      <List
-        activities={activities}
-        localizationId={localizationId}
-        selectedDate={selectedDate}
-        ticket={ticket}
-      />
+      <List activities={activities} localizationId={localizationId} selectedDate={selectedDate} ticket={ticket} />
     </Container>
   );
 }
@@ -73,15 +61,28 @@ function Localization({
 const Wrapper = styled.div`
   height: 85%;
   margin: 60px 0;
-
   display: flex;
 
   & > div:last-child > div:last-child {
     border-right: solid 1px #d7d7d7;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    width: auto;
+
+    > div > div {
+      border-right: solid 1px #d7d7d7;
+    }
   }
 `;
 
 const Container = styled.div`
   width: ${(props) => (props.quantityOfLocalizations ? Math.round(100 / props.quantityOfLocalizations) : 0)}%;
   height: 80%;
+
+  @media (max-width: 600px) {
+    width: 90vw;
+    margin-bottom: 30px;
+  }
 `;

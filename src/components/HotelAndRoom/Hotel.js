@@ -167,6 +167,11 @@ export const HotelBox = styled.div`
       font-size: 12px;
     }
   }
+
+  @media (max-width: 600px) {
+    margin-bottom: 10px !important;
+    margin-left: 18vw;
+  }
 `;
 
 const ChangeRoomButton = styled.button`
