@@ -123,11 +123,16 @@ export default function TicketAndPayment() {
 
 export const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
+
+  @media (max-width: 600px) {
+      font-size: 30px !important;
+    }
 `;
 
 const Types = styled.div`
   width: 315px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
 `;
 
 const TypePresencial = styled.div`

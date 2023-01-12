@@ -24,4 +24,8 @@ const Button = styled.button`
   margin-right: 17px;
   cursor: pointer;
   background-color: ${(props) => (props.selected ? '#FFD37D' : '#e0e0e0')};
+
+  @media (max-width: 600px){
+    margin-bottom: 20px;
+  }
 `;
