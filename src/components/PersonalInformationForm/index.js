@@ -33,15 +33,10 @@ export default function PersonalInformationForm() {
     validations: FormValidations,
 
     onSubmit: async(data) => {
-      const DD = data.birthday.split('-')[0];
-      const MM = data.birthday.split('-')[1];
-      const YYYY = data.birthday.split('-')[2];
-      const formatedBirthday = YYYY + '-' + ('0' + MM).slice(-2) + '-' + ('0' + DD).slice(-2);
-
       const newData = {
         name: data.name,
         cpf: data.cpf.replaceAll('.', '').replaceAll('-', ''),
-        birthday: dayjs(formatedBirthday).toISOString(),
+        birthday: formatBirthdayToSend(data.birthday),
         address: {
           cep: data.cep,
           street: data.street,
@@ -82,7 +77,7 @@ export default function PersonalInformationForm() {
       setData({
         name: enrollment.name,
         cpf: enrollment.cpf,
-        birthday: enrollment.birthday,
+        birthday: formatBirthdayToRead(enrollment.birthday),
         phone: enrollment.phone,
         cep: enrollment.address.cep,
         street: enrollment.address.street,
@@ -124,6 +119,34 @@ export default function PersonalInformationForm() {
     }
   }
 
+  function formatBirthdayToRead(birthdayDate) {
+    if (!birthdayDate) {
+      return null;
+    }
+    const [YYYY, MM, other] = birthdayDate.split('-');
+    const DD = other.slice(0, 2);
+    const formattedBirthday = `${DD}-${MM}-${YYYY}`;
+    return formattedBirthday;
+  }
+
+  function formatBirthdayToDatePicker(birthdayDate) {
+    if (!birthdayDate) {
+      return null;
+    }
+    const [DD, MM, YYYY] = birthdayDate.split('-');
+    const formattedBirthday = `${MM}-${DD}-${YYYY}`;
+    return formattedBirthday;
+  }
+
+  function formatBirthdayToSend(birthdayDate) {
+    if (!birthdayDate) {
+      return null;
+    }
+    const [DD, MM, YYYY] = birthdayDate.split('-');
+    const formattedBirthday = `${YYYY}-${MM}-${DD}T00:00:00.000Z`;
+    return formattedBirthday;
+  }
+
   return (
     <>
       <StyledTypography variant="h4">Suas Informações</StyledTypography>
@@ -160,7 +183,7 @@ export default function PersonalInformationForm() {
               label="Data de Nascimento"
               inputVariant="outlined"
               clearable
-              value={dayjs(data.birthday).format('DD-MM-YYYY').toString()}
+              value={formatBirthdayToDatePicker(data.birthday)}
               onChange={(date) => {
                 customHandleChange('birthday', (d) => d && dayjs(d).format('DD-MM-YYYY'))(date);
               }}
