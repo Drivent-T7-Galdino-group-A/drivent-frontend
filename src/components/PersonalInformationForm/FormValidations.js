@@ -57,7 +57,7 @@ const validations = {
 
   birthday: {
     custom: {
-      isValid: (value) => !value || !isNaN(new Date(value?.split('-').join('-'))),
+      isValid: (value) => isValidBirthDay(value),
       message: 'Selecione uma data de aniversário',
     },
   },
@@ -74,4 +74,13 @@ export default validations;
 
 function isValidString(value) {
   return value || value?.trim();
+}
+
+function isValidBirthDay(value) {
+  if(!value) {
+    return true;
+  }
+  const [DD, MM, YYYY] = value.split('-');
+  const adjustedValue = `${MM}-${DD}-${YYYY}`;
+  return !isNaN(new Date(adjustedValue));
 }
